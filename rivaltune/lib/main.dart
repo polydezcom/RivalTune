@@ -32,19 +32,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Shell _shell = Shell();
   
-  // Device state (what's actually applied)
+  // Available light effects
+  final List<String> _lightEffects = [
+    'steady',
+    'rainbow-shift',
+    'breath-fast',
+    'breath',
+    'breath-slow',
+    'rainbow-breath',
+    'disco',
+  ];
+  
+  // Device state
   int _currentSensitivity = 800;
   Color _currentTopColor = Colors.red;
   Color _currentMiddleColor = Colors.lime;
   Color _currentBottomColor = Colors.blue;
   Color _currentLogoColor = Colors.purple;
+  String _currentEffect = 'steady';
   
-  // UI state (what's shown but not yet applied)
+  // UI state
   int _pendingSensitivity = 800;
   Color _pendingTopColor = Colors.red;
   Color _pendingMiddleColor = Colors.lime;
   Color _pendingBottomColor = Colors.blue;
   Color _pendingLogoColor = Colors.purple;
+  String _pendingEffect = 'steady';
 
   Future<void> _applyZoneColor(int zone, Color color) async {
     final String hexColor = color.value.toRadixString(16).substring(2).padLeft(6, '0');
@@ -138,6 +151,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _applyEffect() async {
+    final command = 'rivalcfg -e $_pendingEffect';
+    try {
+      await _shell.run(command);
+      setState(() {
+        _currentEffect = _pendingEffect;
+      });
+    } catch (e) {
+      print('Error executing command: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,6 +180,50 @@ class _HomePageState extends State<HomePage> {
             _buildColorZone(2, 'Middle Strip', _pendingMiddleColor),
             _buildColorZone(3, 'Bottom Strip', _pendingBottomColor),
             _buildColorZone(4, 'Logo', _pendingLogoColor),
+            const SizedBox(height: 20),
+            
+            // Light Effect Dropdown
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Light Effect', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButton<String>(
+                            value: _pendingEffect,
+                            isExpanded: true,
+                            items: _lightEffects.map((String effect) {
+                              return DropdownMenuItem<String>(
+                                value: effect,
+                                child: Text(effect.replaceAll('-', ' ').toUpperCase()),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                setState(() {
+                                  _pendingEffect = newValue;
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        ElevatedButton(
+                          onPressed: _applyEffect,
+                          child: const Text('Apply Effect'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            
             const SizedBox(height: 20),
             Text('Sensitivity: $_pendingSensitivity DPI'),
             Slider(
