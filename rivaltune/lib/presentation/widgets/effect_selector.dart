@@ -43,12 +43,14 @@ class EffectSelector extends StatelessWidget {
                   isExpanded: true,
                   padding: EdgeInsets.zero,
                   underline: const SizedBox(),
+                  alignment: AlignmentDirectional.centerStart,
+                  style: theme.textTheme.bodyLarge,
                   items: kLightEffects.map((String effect) {
                     return DropdownMenuItem<String>(
                       value: effect,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         effect.replaceAll('-', ' ').toUpperCase(),
-                        style: theme.textTheme.bodyLarge,
                       ),
                     );
                   }).toList(),
