@@ -26,7 +26,8 @@ TBC, currently work in progress.
 
 ## Screenshot
 
-[Screenshot](https://github.com/berkiyo/rivaltune/blob/main/screenshots/demo.png)
+![Alt Text](https://github.com/berkiyo/rivaltune/blob/main/screenshots/demo.png "Screenshot")
+
 
 ## Contributing
 
