@@ -1,5 +1,11 @@
+import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:process_run/shell.dart'; // For running shell commands
 import '../../data/models/color_preset.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../services/rivalcfg_service.dart';
@@ -10,7 +16,9 @@ import '../widgets/rgb_switch.dart';
 import '../widgets/sensitivity_slider.dart';
 import '../dialogs/color_picker_dialog.dart';
 import '../dialogs/preset_name_dialog.dart';
-import '../../core/constants/light_effects.dart';
+import './settings_page.dart'; // Import the new settings page
+import 'package:shared_preferences/shared_preferences.dart';
+import './onboarding_page.dart'; // Import OnboardingPage
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,6 +30,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final RivalcfgService _rivalcfg;
   late final SettingsRepository _settings;
+  bool _isLoading = true;
+  String _loadingMessage = 'Initializing...';
+  bool _udevIssueDetected = false; // New state variable
   
   // Device state
   int _currentSensitivity = 800;
@@ -124,14 +135,125 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _rivalcfg = RivalcfgService();
-    _settings = SettingsRepository();
-    _initializeSettings();
+    _initializeAsyncDependenciesAndSettings();
   }
 
-  Future<void> _initializeSettings() async {
-    await _settings.init();
+  Future<void> _runProcess(String executable, List<String> arguments, String workingDirectory, String stepName) async {
     setState(() {
+      _loadingMessage = 'Running: $stepName...';
+    });
+    // print('Executing: $executable ${arguments.join(' ')} in $workingDirectory');
+    try {
+      final ProcessResult result = await Process.run(executable, arguments, workingDirectory: workingDirectory);
+      if (result.exitCode != 0) {
+        // print('$stepName failed. Exit code: ${result.exitCode}, Stdout: ${result.stdout}, Stderr: ${result.stderr}');
+        throw Exception('$stepName failed.\nStdout: ${result.stdout}\nStderr: ${result.stderr}');
+      }
+      // print('$stepName Succeeded. Stdout: ${result.stdout}');
+    } catch (e) {
+      // print('Exception during $stepName: $e');
+      rethrow; // Rethrow to be caught by the main initialization logic
+    }
+  }
+
+  Future<void> _checkAndShowOnboarding() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool onboardingComplete = prefs.getBool(OnboardingPage.onboardingCompleteKey) ?? false;
+
+    if (!onboardingComplete && mounted) {
+       // print("Onboarding not complete, navigating to OnboardingPage.");
+      // We use pushReplacement to prevent going back to an empty HomePage during initial loading
+      // However, HomePage is already the root if we are here after _isLoading is false.
+      // So, a normal push that replaces the current route might be okay, or ensuring HomePage doesn't build its main UI yet.
+      // For now, let's use pushReplacement. This assumes HomePage might be briefly visible.
+       Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => OnboardingPage(rivalcfgService: _rivalcfg!),
+        ),
+      );
+    }
+  }
+
+  Future<void> _initializeAsyncDependenciesAndSettings() async {
+    setState(() {
+      _isLoading = true;
+      _loadingMessage = 'Preparing rivalcfg environment...';
+    });
+
+    try {
+      final Directory appSupportDir = await getApplicationSupportDirectory();
+      // Path where the rivalcfg repository will be cloned and set up
+      final String rivalcfgToolPath = p.join(appSupportDir.path, 'rivalcfg_tool');
+      final Directory rivalcfgToolDir = Directory(rivalcfgToolPath);
+
+      final String rivalcfgExecutableName = Platform.isWindows ? 'rivalcfg.exe' : 'rivalcfg';
+      final String pipExecutableName = Platform.isWindows ? 'pip.exe' : 'pip';
+      final String pythonExecutableName = Platform.isWindows ? 'python.exe' : 'python3'; // Or just 'python'
+
+      final String expectedRivalcfgEnvPath = p.join(rivalcfgToolPath, 'rivalcfg.env');
+      final String expectedPipPath = Platform.isWindows
+          ? p.join(expectedRivalcfgEnvPath, 'Scripts', pipExecutableName)
+          : p.join(expectedRivalcfgEnvPath, 'bin', pipExecutableName);
+      final String expectedRivalcfgExecutablePath = Platform.isWindows
+          ? p.join(expectedRivalcfgEnvPath, 'Scripts', rivalcfgExecutableName)
+          : p.join(expectedRivalcfgEnvPath, 'bin', rivalcfgExecutableName);
+
+      if (!await File(expectedRivalcfgExecutablePath).exists()) {
+        setState(() {
+          _loadingMessage = 'rivalcfg not found. Attempting installation...';
+        });
+
+        if (await rivalcfgToolDir.exists()) {
+          // print('Cleaning up previous rivalcfg_tool directory...');
+          await rivalcfgToolDir.delete(recursive: true);
+        }
+        await rivalcfgToolDir.create(recursive: true);
+
+        // 1. Git Clone
+        // print('Cloning rivalcfg repository...');
+        await _runProcess('git', ['clone', 'https://github.com/flozz/rivalcfg.git', '.'], rivalcfgToolPath, 'Git Clone');
+        
+        // 2. Create Python Virtual Environment
+        // print('Creating Python virtual environment...');
+        await _runProcess(pythonExecutableName, ['-m', 'venv', 'rivalcfg.env'], rivalcfgToolPath, 'Create venv');
+
+        // 3. Pip Install rivalcfg
+        // print('Installing rivalcfg via pip...');
+        await _runProcess(expectedPipPath, ['install', 'rivalcfg'], rivalcfgToolPath, 'Pip Install');
+        
+        // 4. Set Executable Permissions (Linux/macOS)
+        if (!Platform.isWindows) {
+          // print('Setting executable permissions for rivalcfg...');
+          await _runProcess('chmod', ['+x', expectedRivalcfgExecutablePath], rivalcfgToolPath, 'Chmod rivalcfg');
+        }
+        // print('rivalcfg installation process completed.');
+      } else {
+        // print('rivalcfg already installed at $expectedRivalcfgExecutablePath');
+      }
+
+      _rivalcfg = RivalcfgService(rivalcfgDirectoryPath: rivalcfgToolPath);
+      _settings = SettingsRepository();
+      
+      await _settings.init();
+
+      // Attempt a benign command to check rivalcfg and udev status early
+      try {
+        setState(() { _loadingMessage = 'Verifying device access...'; });
+        await _rivalcfg.setSensitivity(_settings.getSensitivity()); // Or another simple get command if available
+         // print("Initial device access check successful.");
+      } catch (e) {
+        // print("Initial device access check failed: $e");
+        if (e.toString().toLowerCase().contains("udev") || e.toString().toLowerCase().contains("permission denied")) {
+          // print("Udev issue detected during initial check.");
+          setState(() {
+            _udevIssueDetected = true;
+            _loadingMessage = 'Device permission issue detected. Please check Settings (top-right icon) for udev instructions.';
+          });
+        }
+        // Don't rethrow here, let the app load, but with the error message.
+      }
+      
+      // Load settings into UI state
       _pendingTopColor = _currentTopColor = _settings.getTopColor();
       _pendingMiddleColor = _currentMiddleColor = _settings.getMiddleColor();
       _pendingBottomColor = _currentBottomColor = _settings.getBottomColor();
@@ -140,7 +262,36 @@ class _HomePageState extends State<HomePage> {
       _pendingSensitivity = _currentSensitivity = _settings.getSensitivity();
       _isRgbEnabled = _settings.getRgbEnabled();
       _customPresets = _settings.getCustomPresets();
-    });
+      
+      setState(() {
+        _isLoading = false;
+        if (!_udevIssueDetected) { // Clear loading message only if no udev issue
+             _loadingMessage = '';
+        }
+      });
+
+      // After all initialization and loading, check for onboarding
+      // Ensure _rivalcfg is initialized before calling this
+      if (!_isLoading && _rivalcfg != null) {
+          // print("Initialization complete. Checking onboarding status...");
+          await _checkAndShowOnboarding(); 
+      } else if (_isLoading) {
+          // print("Skipping onboarding check as page is still loading or rivalcfg not ready.");
+      } else {
+          // print("Skipping onboarding check as rivalcfg is null even after loading.");
+          // This case might indicate a severe failure in rivalcfg init that didn't throw an exception caught above.
+          // The general error message from the catch block should cover this.
+      }
+
+    } catch (e) {
+      // print('Error during initialization: $e');
+      setState(() {
+        _isLoading = false; 
+        _loadingMessage = 'Initialization failed: ${e.toString()}\nPlease ensure Git and Python3 (with venv) are installed and in your PATH, then restart the app.';
+         _udevIssueDetected = false; // Reset udev flag on general init failure
+      });
+      // No onboarding check if core initialization fails
+    }
   }
 
   void _showColorPicker(int zone, Color currentColor) {
@@ -186,13 +337,27 @@ class _HomePageState extends State<HomePage> {
         return;
     }
     
-    await _rivalcfg.setZoneColor(zoneFlag, color);
-    await _settings.saveColors(
-      topColor: _currentTopColor,
-      middleColor: _currentMiddleColor,
-      bottomColor: _currentBottomColor,
-      logoColor: _currentLogoColor,
-    );
+    try {
+      await _rivalcfg.setZoneColor(zoneFlag, color);
+      await _settings.saveColors(
+        topColor: _currentTopColor,
+        middleColor: _currentMiddleColor,
+        bottomColor: _currentBottomColor,
+        logoColor: _currentLogoColor,
+      );
+    } catch (e) {
+      // print("Error applying zone color: $e");
+      if (e.toString().toLowerCase().contains("udev") || e.toString().toLowerCase().contains("permission denied")) {
+        setState(() {
+          _udevIssueDetected = true;
+          _loadingMessage = 'Device permission issue detected. Please update udev rules via Settings (top-right icon).';
+        });
+      }
+      // Show a snackbar or dialog maybe?
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to apply color. ${ _udevIssueDetected ? _loadingMessage : e.toString() }')),
+      );
+    }
   }
 
   Future<void> _saveCurrentAsPreset() async {
@@ -219,6 +384,33 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'SteelSeries Configurator',
+            style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 20),
+              Text(_loadingMessage, textAlign: TextAlign.center),
+            ],
+          ),
+        ),
+      );
+    }
+    
+    // Display persistent message if udev issue or critical init error
+    final String persistentMessage = _udevIssueDetected 
+        ? 'Device permission issue: Please see Settings (top-right icon) for udev update instructions.' 
+        : (_loadingMessage.isNotEmpty && !_isLoading ? _loadingMessage : '');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -226,6 +418,26 @@ class _HomePageState extends State<HomePage> {
           style: GoogleFonts.roboto(fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Settings & Troubleshooting',
+            onPressed: () {
+              if (!_isLoading && _rivalcfg != null) { // Ensure rivalcfg is initialized
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(rivalcfgService: _rivalcfg!),
+                  ),
+                );
+              } else {
+                 ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Service not yet initialized. Please wait.')),
+                );
+              }
+            },
+          ),
+        ],
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -234,6 +446,30 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (persistentMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.orange.shade300)
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded, color: Colors.orange.shade800, size: 28),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            persistentMessage,
+                            style: TextStyle(color: Colors.orange.shade900, fontWeight: FontWeight.w500, fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               RgbSwitch(
                 value: _isRgbEnabled,
                 onChanged: (enabled) async {
