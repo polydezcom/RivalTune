@@ -43,7 +43,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       if (!udevCommandInstructions.toLowerCase().contains("windows")) // Only show udev for non-Windows
          _buildPageContent(
           title: 'Linux: Udev Rules Setup',
-          description: 'To allow RivalTune to communicate with your mouse without needing root privileges for every action, a one-time \'udev rule\' update is needed.\n\nAfter the app initializes, if you see a permission warning, please run the following command in your terminal:',
+          description: 'To allow RivalTune to communicate with your mouse without needing root privileges for every action, a one-time \'udev rule\' update is needed.\n\nThe app will attempt to run this automatically during setup, but if you see permission warnings, please run the following command in your terminal:',
           commandToCopy: udevCommand,
           icon: Icons.terminal_outlined,
           extraNotes: 'You might need to unplug and replug your mouse after running the command.',
@@ -130,7 +130,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   String _extractActualCommand(String fullInstructions) {
-    final RegExp commandRegExp = RegExp(r'sudo ".*?" --update-udev');
+    final RegExp commandRegExp = RegExp(r'sudo ".*?rivalcfg\.env[/\\]bin[/\\]rivalcfg" --update-udev');
     final Match? match = commandRegExp.firstMatch(fullInstructions);
     if (match != null) {
       return match.group(0) ?? '';
@@ -138,7 +138,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     if (fullInstructions.toLowerCase().contains("windows")) { 
         return "";
     }
-    return "sudo /path/to/rivalcfg_tool/rivalcfg.env/bin/rivalcfg --update-udev (auto-detection failed)";
+    return "sudo ./rivalcfg.env/bin/rivalcfg --update-udev (auto-detection failed)";
   }
 
   Future<void> _completeOnboarding() async {

@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           bodyLarge: GoogleFonts.roboto(fontSize: 14),
           bodyMedium: GoogleFonts.roboto(fontSize: 13),
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),

@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
       // For now, let's use pushReplacement. This assumes HomePage might be briefly visible.
        Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => OnboardingPage(rivalcfgService: _rivalcfg!),
+          builder: (context) => OnboardingPage(rivalcfgService: _rivalcfg),
         ),
       );
     }
@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
         // print('Creating Python virtual environment...');
         await _runProcess(pythonExecutableName, ['-m', 'venv', 'rivalcfg.env'], rivalcfgToolPath, 'Create venv');
 
-        // 3. Pip Install rivalcfg
+        // 3. Pip Install rivalcfg using the virtual environment's pip
         // print('Installing rivalcfg via pip...');
         await _runProcess(expectedPipPath, ['install', 'rivalcfg'], rivalcfgToolPath, 'Pip Install');
         
@@ -225,6 +225,18 @@ class _HomePageState extends State<HomePage> {
         if (!Platform.isWindows) {
           // print('Setting executable permissions for rivalcfg...');
           await _runProcess('chmod', ['+x', expectedRivalcfgExecutablePath], rivalcfgToolPath, 'Chmod rivalcfg');
+          
+          // 5. Update udev rules (Linux only)
+          // print('Updating udev rules...');
+          setState(() {
+            _loadingMessage = 'Updating system permissions (udev rules)...';
+          });
+          try {
+            await _runProcess('sudo', [expectedRivalcfgExecutablePath, '--update-udev'], rivalcfgToolPath, 'Update udev rules');
+          } catch (e) {
+            // print('Udev update failed, user will need to run it manually: $e');
+            // We'll handle this in the verification step below
+          }
         }
         // print('rivalcfg installation process completed.');
       } else {
@@ -272,7 +284,7 @@ class _HomePageState extends State<HomePage> {
 
       // After all initialization and loading, check for onboarding
       // Ensure _rivalcfg is initialized before calling this
-      if (!_isLoading && _rivalcfg != null) {
+      if (!_isLoading) {
           // print("Initialization complete. Checking onboarding status...");
           await _checkAndShowOnboarding(); 
       } else if (_isLoading) {
@@ -423,11 +435,11 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.settings),
             tooltip: 'Settings & Troubleshooting',
             onPressed: () {
-              if (!_isLoading && _rivalcfg != null) { // Ensure rivalcfg is initialized
+              if (!_isLoading) { // Ensure rivalcfg is initialized
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SettingsPage(rivalcfgService: _rivalcfg!),
+                    builder: (context) => SettingsPage(rivalcfgService: _rivalcfg),
                   ),
                 );
               } else {
