@@ -121,6 +121,16 @@ install(CODE "
 install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
   DESTINATION "${INSTALL_BUNDLE_DATA_DIR}" COMPONENT Runtime)
 
+# Install desktop file and icons into the bundle so the app is discoverable
+# and the icon is available to the desktop environment after packaging.
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/rivaltune.desktop"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
+  COMPONENT Runtime)
+
+# Install icon theme files (hicolor) so packagers can pick them up from the bundle
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/icons/hicolor"
+  DESTINATION "${INSTALL_BUNDLE_DATA_DIR}/icons"
+  COMPONENT Runtime)
 # Install the AOT library on non-Debug builds only.
 if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"

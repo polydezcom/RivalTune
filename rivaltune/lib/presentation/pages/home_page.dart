@@ -14,6 +14,7 @@ import '../widgets/effect_selector.dart';
 import '../widgets/preset_selector.dart';
 import '../widgets/rgb_switch.dart';
 import '../widgets/sensitivity_slider.dart';
+// ...existing code...
 import '../dialogs/color_picker_dialog.dart';
 import '../dialogs/preset_name_dialog.dart';
 import './settings_page.dart'; // Import the new settings page
@@ -501,6 +502,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               const SizedBox(height: 8),
+
+  // ...existing code...
               
               PresetSelector(
                 builtInPresets: _builtInPresets,
