@@ -54,7 +54,19 @@ add_subdirectory(${FLUTTER_MANAGED_DIR})
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
 
+# Generate Linux icon sizes from assets/icon/icon.png prior to building.
+add_custom_target(generate_icons ALL
+  COMMAND ${CMAKE_COMMAND} -E echo "Generating linux icons from assets/icon/icon.png"
+  # Script lives at project root: ../tools/generate_linux_icons.py from this CMake dir
+  COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${PYTHONPATH}" python3 "${CMAKE_CURRENT_SOURCE_DIR}/../tools/generate_linux_icons.py"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..
+  COMMENT "Generating linux icons"
+)
+
 # Application build; see runner/CMakeLists.txt.
+# Make sure BUILD_BUNDLE_DIR is defined before processing runner so the
+# runner CMakeLists can reference it in POST_BUILD commands.
+set(BUILD_BUNDLE_DIR "${PROJECT_BINARY_DIR}/bundle")
 add_subdirectory("runner")
 
 # Run the Flutter tool portions of the build. This must not be removed.
@@ -69,6 +81,8 @@ set_target_properties(${BINARY_NAME}
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/intermediates_do_not_run"
 )
 
+# moved POST_BUILD copy to runner/CMakeLists.txt where the target is defined
+
 
 # Generated plugin build rules, which manage building the plugins and adding
 # them to the application.
@@ -78,7 +92,6 @@ include(flutter/generated_plugins.cmake)
 # === Installation ===
 # By default, "installing" just makes a relocatable bundle in the build
 # directory.
-set(BUILD_BUNDLE_DIR "${PROJECT_BINARY_DIR}/bundle")
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "${BUILD_BUNDLE_DIR}" CACHE PATH "..." FORCE)
 endif()

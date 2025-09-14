@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=RivalTune
+Comment=Configure SteelSeries mice
+Exec=rivaltune
+Icon=rivaltune
+StartupWMClass=RivalTune
+Type=Application
+Categories=Utility;AudioVideo;HardwareSettings;
+Terminal=false

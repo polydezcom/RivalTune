@@ -24,3 +24,20 @@ target_link_libraries(${BINARY_NAME} PRIVATE flutter)
 target_link_libraries(${BINARY_NAME} PRIVATE PkgConfig::GTK)
 
 target_include_directories(${BINARY_NAME} PRIVATE "${CMAKE_SOURCE_DIR}")
+
+# Ensure icons are generated before building the native runner.
+add_dependencies(${BINARY_NAME} generate_icons)
+
+# After building the binary, copy desktop file and icons into the bundle's
+# data directory so `flutter build linux` produces a bundle that includes them.
+add_custom_command(TARGET ${BINARY_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/bundle/data"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/../rivaltune.desktop"
+    "${CMAKE_BINARY_DIR}/bundle/data/rivaltune.desktop"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_BINARY_DIR}/bundle/data/icons"
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/../icons/hicolor"
+    "${CMAKE_BINARY_DIR}/bundle/data/icons/hicolor"
+  COMMENT "Copying desktop file and icons into bundle data"
+)
