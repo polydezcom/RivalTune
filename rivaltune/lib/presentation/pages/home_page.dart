@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:process_run/shell.dart'; // For running shell commands
+// For running shell commands
 import '../../data/models/color_preset.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../services/rivalcfg_service.dart';

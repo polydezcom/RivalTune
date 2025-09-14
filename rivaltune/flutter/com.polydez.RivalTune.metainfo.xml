@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.polydez.KeyVault</id>
+  <name>RivalTune</name>
+  <summary>SteelSeries Mouse Configuration Tool</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <icon type="cached">com.polydez.RivalTune</icon>
+  <categories>
+    <category>Utility</category>
+    <category>Security</category>
+  </categories>
+  <description>
+    <p>
+      RivalTune is an easy to use configuration tool for SteelSeries mice, allowing users to customize button mappings, DPI settings, and lighting effects. It provides a user-friendly interface to manage profiles and settings for various SteelSeries mouse models.
+      This works by using the open-source rivaltune library to communicate with the mice.
+    </p>
+    <p>
+      Features:
+    </p>
+    <ul>
+      <li>Toggle RGB lighting with ease</li>
+      <li>Choose from many color presets</li>
+      <li>Create your own color presets</li>
+      <li>Change LED zone colors individually (if mouse supports it)</li>
+      <li>Change light effects (e.g. rainbow, breathe, etc)</li>
+      <li>Adjust mouse sensitivity (only 1 profile supported for now)</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.polydez.RivalTune.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main interface of RivalTune</caption>
+      <image>https://www.polydez.com/wp-content/uploads/1-4.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Secure offline storage</caption>
+      <image>https://www.polydez.com/wp-content/uploads/2-3.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>QR code scanner</caption>
+      <image>https://www.polydez.com/wp-content/uploads/3-3.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://www.polydez.com/rivaltune</url>
+  <provides>
+    <binary>rivaltune</binary>
+  </provides>
+  <releases>
+    <release version="1.2.0" date="2025-09-14">
+      <description>
+        <p>Initial release of RivalTune on Linux</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+</component> 

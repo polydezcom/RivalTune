@@ -5,10 +5,10 @@ class MousePreview extends StatelessWidget {
   final List<Color> zoneColors;
 
   const MousePreview({
-    Key? key,
+    super.key,
     required this.zoneCount,
     required this.zoneColors,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
