@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.1
+Name=RivalTune
+Comment=Easy to use SteelSeries mouse configuration tool
+Exec=rivaltune
+Icon=com.polydez.RivalTune
+Type=Application
+Categories=Utility;Security;
+Keywords=RivalTune,SteelSeries,Mouse,rivalcfg,mice,configuration
+StartupNotify=true
+StartupWMClass=com.polydez.RivalTune
