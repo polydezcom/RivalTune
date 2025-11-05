@@ -31,4 +31,4 @@ class RgbSwitch extends StatelessWidget {
       ),
     );
   }
-} 
+}

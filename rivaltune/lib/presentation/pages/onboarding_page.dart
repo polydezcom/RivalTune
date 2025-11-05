@@ -26,31 +26,39 @@ class _OnboardingPageState extends State<OnboardingPage> {
   int _currentPage = 0;
 
   List<Widget> _buildPages() {
-    final String udevCommandInstructions = widget.rivalcfgService.getUdevUpdateCommandInstructions();
+    final String udevCommandInstructions =
+        widget.rivalcfgService.getUdevUpdateCommandInstructions();
     final String udevCommand = _extractActualCommand(udevCommandInstructions);
 
     return [
       _buildPageContent(
         title: 'Welcome to RivalTune!',
-        description: 'This app helps you configure your SteelSeries mouse on Linux.\n\nLet\'s get you set up.',
+        description:
+            'This app helps you configure your SteelSeries mouse on Linux.\n\nLet\'s get you set up.',
         icon: Icons.mouse_outlined,
       ),
       _buildPageContent(
         title: 'System Requirements',
-        description: 'RivalTune needs Git and Python 3 (with the \'venv\' module) installed on your system to download and set up the \'rivalcfg\' utility.\n\nIf these are missing, the app will attempt to guide you, but automatic setup might fail.',
+        description:
+            'RivalTune needs Git and Python 3 (with the \'venv\' module) installed on your system to download and set up the \'rivalcfg\' utility.\n\nIf these are missing, the app will attempt to guide you, but automatic setup might fail.',
         icon: Icons.build_circle_outlined,
       ),
-      if (!udevCommandInstructions.toLowerCase().contains("windows")) // Only show udev for non-Windows
-         _buildPageContent(
+      if (!udevCommandInstructions
+          .toLowerCase()
+          .contains("windows")) // Only show udev for non-Windows
+        _buildPageContent(
           title: 'Linux: Udev Rules Setup',
-          description: 'To allow RivalTune to communicate with your mouse without needing root privileges for every action, a one-time \'udev rule\' update is needed.\n\nThe app will attempt to run this automatically during setup, but if you see permission warnings, please run the following command in your terminal:',
+          description:
+              'To allow RivalTune to communicate with your mouse without needing root privileges for every action, a one-time \'udev rule\' update is needed.\n\nThe app will attempt to run this automatically during setup, but if you see permission warnings, please run the following command in your terminal:',
           commandToCopy: udevCommand,
           icon: Icons.terminal_outlined,
-          extraNotes: 'You might need to unplug and replug your mouse after running the command.',
-      ),
+          extraNotes:
+              'You might need to unplug and replug your mouse after running the command.',
+        ),
       _buildPageContent(
         title: 'All Set!',
-        description: 'You\'re ready to start configuring your mouse.\n\nIf you encounter any issues, check the Settings & Troubleshooting section (top-right icon on the main page).',
+        description:
+            'You\'re ready to start configuring your mouse.\n\nIf you encounter any issues, check the Settings & Troubleshooting section (top-right icon on the main page).',
         icon: Icons.check_circle_outline,
       ),
     ];
@@ -75,7 +83,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
+            style:
+                GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Text(
@@ -120,7 +129,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: Text(
                 extraNotes,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
             ),
           const Spacer(), // Pushes controls to the bottom if content is short
@@ -130,13 +142,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   String _extractActualCommand(String fullInstructions) {
-    final RegExp commandRegExp = RegExp(r'sudo ".*?rivalcfg\.env[/\\]bin[/\\]rivalcfg" --update-udev');
+    final RegExp commandRegExp =
+        RegExp(r'sudo ".*?rivalcfg\.env[/\\]bin[/\\]rivalcfg" --update-udev');
     final Match? match = commandRegExp.firstMatch(fullInstructions);
     if (match != null) {
       return match.group(0) ?? '';
     }
-    if (fullInstructions.toLowerCase().contains("windows")) { 
-        return "";
+    if (fullInstructions.toLowerCase().contains("windows")) {
+      return "";
     }
     return "sudo ./rivalcfg.env/bin/rivalcfg --update-udev (auto-detection failed)";
   }
@@ -200,7 +213,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           shape: BoxShape.circle,
                           color: _currentPage == index
                               ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.3),
                         ),
                       );
                     }),
@@ -227,4 +243,4 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
     );
   }
-} 
+}

@@ -18,20 +18,20 @@ class ColorPreset {
   });
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'topColor': topColor.value,
-    'middleColor': middleColor.value,
-    'bottomColor': bottomColor.value,
-    'logoColor': logoColor.value,
-    'effect': effect,
-  };
+        'name': name,
+        'topColor': topColor.value,
+        'middleColor': middleColor.value,
+        'bottomColor': bottomColor.value,
+        'logoColor': logoColor.value,
+        'effect': effect,
+      };
 
   factory ColorPreset.fromJson(Map<String, dynamic> json) => ColorPreset(
-    name: json['name'],
-    topColor: Color(json['topColor']),
-    middleColor: Color(json['middleColor']),
-    bottomColor: Color(json['bottomColor']),
-    logoColor: Color(json['logoColor']),
-    effect: json['effect'],
-  );
-} 
+        name: json['name'],
+        topColor: Color(json['topColor']),
+        middleColor: Color(json['middleColor']),
+        bottomColor: Color(json['bottomColor']),
+        logoColor: Color(json['logoColor']),
+        effect: json['effect'],
+      );
+}

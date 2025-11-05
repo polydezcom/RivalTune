@@ -32,7 +32,9 @@ class MousePreview extends StatelessWidget {
                 width: 80,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: zoneColors.length > i ? zoneColors[i].withOpacity(0.7) : Colors.grey.withOpacity(0.3),
+                  color: zoneColors.length > i
+                      ? zoneColors[i].withOpacity(0.7)
+                      : Colors.grey.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -56,9 +58,12 @@ class _MouseBodyPainter extends CustomPainter {
       ..strokeWidth = 2;
     final bodyPath = Path()
       ..moveTo(size.width * 0.5, size.height * 0.1)
-      ..quadraticBezierTo(size.width * 0.9, size.height * 0.3, size.width * 0.8, size.height * 0.9)
-      ..quadraticBezierTo(size.width * 0.5, size.height * 1.05, size.width * 0.2, size.height * 0.9)
-      ..quadraticBezierTo(size.width * 0.1, size.height * 0.3, size.width * 0.5, size.height * 0.1)
+      ..quadraticBezierTo(size.width * 0.9, size.height * 0.3, size.width * 0.8,
+          size.height * 0.9)
+      ..quadraticBezierTo(size.width * 0.5, size.height * 1.05,
+          size.width * 0.2, size.height * 0.9)
+      ..quadraticBezierTo(size.width * 0.1, size.height * 0.3, size.width * 0.5,
+          size.height * 0.1)
       ..close();
     canvas.drawPath(bodyPath, bodyPaint);
     canvas.drawPath(bodyPath, outlinePaint);

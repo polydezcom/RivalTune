@@ -3,11 +3,13 @@ import 'package:path/path.dart' as p;
 import 'package:process_run/shell.dart';
 import 'package:flutter/material.dart';
 import '../core/utils/color_utils.dart';
+import '../data/models/device.dart';
 
 class RivalcfgService {
   final Shell _shell;
   final String _rivalcfgExecutableCommand;
   final String _rivalcfgDirectoryPath;
+  Device? _selectedDevice;
 
   RivalcfgService({required String rivalcfgDirectoryPath})
       : _rivalcfgDirectoryPath = rivalcfgDirectoryPath,
@@ -15,6 +17,21 @@ class RivalcfgService {
         _rivalcfgExecutableCommand = Platform.isWindows
             ? p.join('.', 'rivalcfg.env', 'Scripts', 'rivalcfg.exe')
             : p.join('.', 'rivalcfg.env', 'bin', 'rivalcfg');
+
+  /// Set the currently selected device
+  void setSelectedDevice(Device? device) {
+    _selectedDevice = device;
+  }
+
+  /// Get the currently selected device
+  Device? getSelectedDevice() => _selectedDevice;
+
+  /// Check if a command is supported by the current device
+  bool isCommandSupported(String command) {
+    if (_selectedDevice == null)
+      return true; // Assume all commands if no device selected
+    return _selectedDevice!.supportedCommands.contains(command);
+  }
 
   Future<void> setZoneColor(String zone, Color color) async {
     final String hexColor = colorToHex(color);
@@ -24,6 +41,33 @@ class RivalcfgService {
 
   Future<void> setSensitivity(int dpi) async {
     await _shell.run('$_rivalcfgExecutableCommand -s $dpi');
+  }
+
+  /// Set multiple sensitivity presets (up to 5)
+  /// Handles device-specific formats:
+  /// - Rival 3, 110, etc: -s 800,1600,3200 (comma-separated)
+  /// - Rival 100: -s 1000 -S 2000 (separate flags)
+  Future<void> setSensitivities(List<int> dpiList) async {
+    if (dpiList.isEmpty) return;
+
+    // Determine command format based on selected device
+    if (_selectedDevice != null &&
+        _selectedDevice!.sensitivityConfig.type == SensitivityType.multiple) {
+      // Rival 100 style: separate flags for each preset
+      final flags = <String>[];
+      for (int i = 0; i < dpiList.length && i < 2; i++) {
+        if (i == 0) {
+          flags.add('-s ${dpiList[i]}');
+        } else if (i == 1) {
+          flags.add('-S ${dpiList[i]}');
+        }
+      }
+      await _shell.run('$_rivalcfgExecutableCommand ${flags.join(' ')}');
+    } else {
+      // Default style: comma-separated list (Rival 3, 110, etc)
+      final dpiString = dpiList.join(',');
+      await _shell.run('$_rivalcfgExecutableCommand -s $dpiString');
+    }
   }
 
   Future<void> setEffect(String effect) async {
@@ -61,11 +105,12 @@ class RivalcfgService {
     if (Platform.isWindows) {
       return "Udev rules are typically for Linux. On Windows, please ensure that device drivers are correctly installed and that the rivalcfg utility has the necessary permissions to access your SteelSeries device.";
     }
-    final String fullExecutablePath = p.join(_rivalcfgDirectoryPath, _rivalcfgExecutableCommand);
+    final String fullExecutablePath =
+        p.join(_rivalcfgDirectoryPath, _rivalcfgExecutableCommand);
     return 'For rivalcfg to control your device without needing root privileges for every command, '
-           'your system\'s udev rules need to be updated. '
-           'Please run the following command in a terminal. You might be prompted for your administrator password:\n\n'
-           'sudo "$fullExecutablePath" --update-udev\n\n'
-           'After running this command, you may need to unplug and then replug your SteelSeries device for the changes to take full effect.';
+        'your system\'s udev rules need to be updated. '
+        'Please run the following command in a terminal. You might be prompted for your administrator password:\n\n'
+        'sudo "$fullExecutablePath" --update-udev\n\n'
+        'After running this command, you may need to unplug and then replug your SteelSeries device for the changes to take full effect.';
   }
-} 
+}

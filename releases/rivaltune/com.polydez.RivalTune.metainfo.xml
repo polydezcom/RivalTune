@@ -13,7 +13,7 @@
   <description>
     <p>
       RivalTune is an easy to use configuration tool for SteelSeries mice, allowing users to customize button mappings, DPI settings, and lighting effects. It provides a user-friendly interface to manage profiles and settings for various SteelSeries mouse models.
-      This works by using the open-source rivaltune library to communicate with the mice.
+      This works by using the open-source rivalcfg library to communicate with the mice.
     </p>
     <p>
       Features:

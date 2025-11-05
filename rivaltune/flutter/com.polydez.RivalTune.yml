@@ -52,7 +52,7 @@ modules:
       - type: archive
         only-arches: [x86_64]
         url: https://github.com/polydezcom/RivalTune/releases/download/v1.2.0/rivaltune-v1.2.0-release.zip
-        sha256: fb3f7771257ec183a1c4f258152eacae663eed4e5f8c0a9790f4554d584e8160
+        sha256: 70b0a904f97d9a85624563aa342f711411814b211b148b3e9bf33d1daad3f7ed
         # Assumes zip extracts 'rivaltune' binary and 'rivaltune.png' icon
       
       # Local files to be copied into the build environment

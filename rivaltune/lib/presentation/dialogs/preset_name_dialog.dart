@@ -32,4 +32,4 @@ class PresetNameDialog extends StatelessWidget {
       ],
     );
   }
-} 
+}

@@ -36,9 +36,11 @@ class PresetSelector extends StatelessWidget {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.5)),
+                    borderSide: BorderSide(
+                        color: theme.colorScheme.outline.withOpacity(0.5)),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   isDense: true,
                   constraints: const BoxConstraints(maxHeight: 36),
                 ),
@@ -48,7 +50,7 @@ class PresetSelector extends StatelessWidget {
                         value: preset,
                         child: Text('📦 ${preset.name}'),
                       )),
-                  if (customPresets.isNotEmpty) 
+                  if (customPresets.isNotEmpty)
                     const DropdownMenuItem(
                       enabled: false,
                       child: Divider(),
@@ -83,4 +85,4 @@ class PresetSelector extends StatelessWidget {
       ),
     );
   }
-} 
+}

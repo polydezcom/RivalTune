@@ -16,7 +16,7 @@ class EffectSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -68,4 +68,4 @@ class EffectSelector extends StatelessWidget {
       ),
     );
   }
-} 
+}

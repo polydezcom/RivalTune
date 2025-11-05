@@ -6,4 +6,4 @@ const List<String> kLightEffects = [
   'breath-slow',
   'rainbow-breath',
   'disco',
-]; 
+];

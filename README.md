@@ -35,4 +35,4 @@ We encourage contributions to this project! If you have any improvements or sugg
 
 ## License
 
-GPLv3
+GPL-v3

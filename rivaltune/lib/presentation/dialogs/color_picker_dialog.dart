@@ -42,4 +42,4 @@ class ColorPickerDialog extends StatelessWidget {
       ],
     );
   }
-} 
+}
