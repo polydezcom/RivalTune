@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../services/rivalcfg_service.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../data/models/device.dart';
@@ -23,11 +24,22 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   Device? _selectedDevice;
+  String _version = 'Loading...';
+  String _buildNumber = '';
 
   @override
   void initState() {
     super.initState();
     _selectedDevice = widget.settingsRepository.getSelectedDevice();
+    _loadVersionInfo();
+  }
+
+  Future<void> _loadVersionInfo() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = packageInfo.version;
+      _buildNumber = packageInfo.buildNumber;
+    });
   }
 
   void _showDeviceSelection() {
@@ -285,6 +297,90 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Text(
                 udevCommandInstructions,
                 style: GoogleFonts.sourceCodePro(fontSize: 14),
+              ),
+            ),
+            const SizedBox(height: 32),
+            const Divider(),
+            const SizedBox(height: 16),
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    'RivalTune',
+                    style: GoogleFonts.roboto(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Version $_version${_buildNumber.isNotEmpty ? ' (Build $_buildNumber)' : ''}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Made by Polydez',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  InkWell(
+                    onTap: () {
+                      Clipboard.setData(
+                        const ClipboardData(
+                          text: 'https://github.com/polydezcom/RivalTune',
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('GitHub URL copied to clipboard!'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: Colors.blue[200]!),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.link, size: 16, color: Colors.blue[700]),
+                          const SizedBox(width: 6),
+                          Text(
+                            'github.com/polydezcom/RivalTune',
+                            style: TextStyle(
+                              color: Colors.blue[700],
+                              fontSize: 13,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(Icons.content_copy,
+                              size: 14, color: Colors.blue[700]),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Licensed under GPL-3.0',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

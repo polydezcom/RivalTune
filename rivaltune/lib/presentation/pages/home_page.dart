@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:window_size/window_size.dart';
 // For running shell commands
 import '../../data/models/color_preset.dart';
 import '../../data/repositories/settings_repository.dart';
@@ -137,7 +139,49 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _restoreWindowSize();
     _initializeAsyncDependenciesAndSettings();
+  }
+
+  @override
+  void dispose() {
+    _saveWindowSize();
+    super.dispose();
+  }
+
+  Future<void> _restoreWindowSize() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final double? width = prefs.getDouble('window_width');
+      final double? height = prefs.getDouble('window_height');
+
+      if (width != null && height != null) {
+        final window = await getWindowInfo();
+        if (window.screen != null) {
+          setWindowFrame(Rect.fromLTWH(
+            window.frame.left,
+            window.frame.top,
+            width,
+            height,
+          ));
+        }
+      }
+    } catch (e) {
+      // Silently fail if window size restoration doesn't work
+      // print('Failed to restore window size: $e');
+    }
+  }
+
+  Future<void> _saveWindowSize() async {
+    try {
+      final window = await getWindowInfo();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble('window_width', window.frame.width);
+      await prefs.setDouble('window_height', window.frame.height);
+    } catch (e) {
+      // Silently fail if window size saving doesn't work
+      // print('Failed to save window size: $e');
+    }
   }
 
   Future<void> _runProcess(String executable, List<String> arguments,
@@ -175,6 +219,108 @@ class _HomePageState extends State<HomePage> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => OnboardingPage(rivalcfgService: _rivalcfg),
+        ),
+      );
+    }
+  }
+
+  Future<void> _showDisclaimerDialog() async {
+    // Show disclaimer on every app launch
+    if (mounted) {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.orange[700]),
+              const SizedBox(width: 8),
+              const Text('Welcome to RivalTune!'),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '⚠️ Testing Phase',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'This app is still in the testing phase, so some issues may still occur. More devices will be supported soon!',
+                  style: TextStyle(fontSize: 14),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  '🐛 Issues or Feature Requests?',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'If you run into any issues or have any feature requests, please open an issue on the GitHub repository:',
+                  style: TextStyle(fontSize: 14),
+                ),
+                const SizedBox(height: 8),
+                InkWell(
+                  onTap: () {
+                    // Copy URL to clipboard
+                    Clipboard.setData(
+                      const ClipboardData(
+                        text: 'https://github.com/polydezcom/RivalTune/issues',
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('GitHub URL copied to clipboard!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.blue[200]!),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.link, size: 16, color: Colors.blue[700]),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            'github.com/polydezcom/RivalTune/issues',
+                            style: TextStyle(
+                              color: Colors.blue[700],
+                              fontSize: 13,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.content_copy,
+                            size: 14, color: Colors.blue[700]),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Thanks for trying out RivalTune! 🎉',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Got it!'),
+            ),
+          ],
         ),
       );
     }
@@ -321,6 +467,8 @@ class _HomePageState extends State<HomePage> {
       if (!_isLoading) {
         // print("Initialization complete. Checking onboarding status...");
         await _checkAndShowOnboarding();
+        // Show disclaimer dialog after onboarding
+        await _showDisclaimerDialog();
       } else if (_isLoading) {
         // print("Skipping onboarding check as page is still loading or rivalcfg not ready.");
       } else {
