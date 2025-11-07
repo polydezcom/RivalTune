@@ -28,8 +28,9 @@ class RivalcfgService {
 
   /// Check if a command is supported by the current device
   bool isCommandSupported(String command) {
-    if (_selectedDevice == null)
+    if (_selectedDevice == null) {
       return true; // Assume all commands if no device selected
+    }
     return _selectedDevice!.supportedCommands.contains(command);
   }
 

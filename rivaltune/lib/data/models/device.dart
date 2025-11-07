@@ -128,8 +128,9 @@ class Device {
     if (supportsCommand('strip_bottom_color')) zones.add('strip_bottom');
     if (supportsCommand('logo_color')) zones.add('logo');
     if (supportsCommand('wheel_color')) zones.add('wheel');
-    if (supportsCommand('color') && zones.isEmpty)
+    if (supportsCommand('color') && zones.isEmpty) {
       zones.add('unified'); // Single color for whole device
+    }
     return zones;
   }
 }
@@ -146,8 +147,12 @@ class SupportedDevices {
       supportedCommands: [
         'sensitivity',
         'polling_rate',
-        'logo_color',
-        'wheel_color',
+        'strip_top_color', // z1
+        'strip_middle_color', // z2
+        'strip_bottom_color', // z3
+        'logo_color', // z4
+        'light_effect',
+        'buttons_mapping',
       ],
       docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival3.html',
       sensitivityConfig: SensitivityConfig(
@@ -177,151 +182,23 @@ class SupportedDevices {
       ),
     ),
     Device(
-      id: 'rival110',
-      name: 'Rival 110',
+      id: 'rival105',
+      name: 'Rival 105',
       usbVendorId: '1038',
-      usbProductId: '1729',
+      usbProductId: '1814',
       supportedCommands: [
         'sensitivity',
         'polling_rate',
-        'color',
-        'led_style',
+        'color', // Unified color for LED
+        'light_effect',
+        'btn6_mode',
       ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival110.html',
+      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival105.html',
       sensitivityConfig: SensitivityConfig(
-        type: SensitivityType.single,
-        maxPresets: 5,
-        minValue: 200,
-        maxValue: 7200,
+        type: SensitivityType.multiple,
+        maxPresets: 2,
+        allowedValues: [250, 500, 1000, 1250, 1500, 1750, 2000, 4000],
       ),
-    ),
-    Device(
-      id: 'rival300',
-      name: 'Rival 300',
-      usbVendorId: '1038',
-      usbProductId: '1710',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival300.html',
-    ),
-    Device(
-      id: 'rival310',
-      name: 'Rival 310',
-      usbVendorId: '1038',
-      usbProductId: '1720',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival310.html',
-    ),
-    Device(
-      id: 'rival500',
-      name: 'Rival 500',
-      usbVendorId: '1038',
-      usbProductId: '170b',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival500.html',
-    ),
-    Device(
-      id: 'rival600',
-      name: 'Rival 600',
-      usbVendorId: '1038',
-      usbProductId: '1724',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival600.html',
-    ),
-    Device(
-      id: 'rival650',
-      name: 'Rival 650 Wireless',
-      usbVendorId: '1038',
-      usbProductId: '1726',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-        'battery_level',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival650.html',
-    ),
-    Device(
-      id: 'rival700',
-      name: 'Rival 700',
-      usbVendorId: '1038',
-      usbProductId: '1700',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-        'screen',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/rival700.html',
-    ),
-    Device(
-      id: 'sensei310',
-      name: 'Sensei 310',
-      usbVendorId: '1038',
-      usbProductId: '1722',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'logo_color',
-        'wheel_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/sensei310.html',
-    ),
-    Device(
-      id: 'senseiraw',
-      name: 'Sensei [RAW]',
-      usbVendorId: '1038',
-      usbProductId: '1369',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/senseiraw.html',
-    ),
-    Device(
-      id: 'aerox3',
-      name: 'Aerox 3',
-      usbVendorId: '1038',
-      usbProductId: '1836',
-      supportedCommands: [
-        'sensitivity',
-        'polling_rate',
-        'strip_top_color',
-        'strip_middle_color',
-        'strip_bottom_color',
-        'logo_color',
-        'led_style',
-      ],
-      docsUrl: 'https://flozz.github.io/rivalcfg/devices/aerox3.html',
     ),
   ];
 

@@ -30,11 +30,15 @@ class SettingsRepository {
     required Color middleColor,
     required Color bottomColor,
     required Color logoColor,
+    Color? wheelColor,
   }) async {
     await _prefs.setInt('topColor', topColor.value);
     await _prefs.setInt('middleColor', middleColor.value);
     await _prefs.setInt('bottomColor', bottomColor.value);
     await _prefs.setInt('logoColor', logoColor.value);
+    if (wheelColor != null) {
+      await _prefs.setInt('wheelColor', wheelColor.value);
+    }
   }
 
   Future<void> saveEffect(String effect) async {

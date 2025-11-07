@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   Color _currentMiddleColor = Colors.lime;
   Color _currentBottomColor = Colors.blue;
   Color _currentLogoColor = Colors.purple;
+  Color _currentWheelColor = Colors.orange;
   String _currentEffect = 'steady';
   bool _isRgbEnabled = true;
 
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   Color _pendingMiddleColor = Colors.lime;
   Color _pendingBottomColor = Colors.blue;
   Color _pendingLogoColor = Colors.purple;
+  Color _pendingWheelColor = Colors.orange;
   String _pendingEffect = 'steady';
   List<ColorPreset> _customPresets = [];
 
@@ -366,7 +368,7 @@ class _HomePageState extends State<HomePage> {
       case 5: // Wheel
         if (device?.supportsCommand('wheel_color') ?? false) {
           zoneFlag = 'wheel-color';
-          _currentLogoColor = color;
+          _currentWheelColor = color;
         }
       case 6: // Unified color (e.g., Rival 100)
         if (device?.supportsCommand('color') ?? false) {
@@ -386,6 +388,7 @@ class _HomePageState extends State<HomePage> {
         middleColor: _currentMiddleColor,
         bottomColor: _currentBottomColor,
         logoColor: _currentLogoColor,
+        wheelColor: _currentWheelColor,
       );
     } catch (e) {
       // print("Error applying zone color: $e");
@@ -521,8 +524,8 @@ class _HomePageState extends State<HomePage> {
         case 'wheel':
           tiles.add(ColorZoneTile(
             label: 'Scroll Wheel',
-            color: _pendingLogoColor, // Using logo color for wheel
-            onTap: () => _showColorPicker(5, _pendingLogoColor),
+            color: _pendingWheelColor,
+            onTap: () => _showColorPicker(5, _pendingWheelColor),
           ));
           needsDivider = true;
           break;
@@ -561,7 +564,7 @@ class _HomePageState extends State<HomePage> {
               case 4:
                 _pendingLogoColor = color;
               case 5:
-                _pendingLogoColor = color; // Wheel uses logo color
+                _pendingWheelColor = color;
               case 6:
                 _pendingLogoColor = color; // Unified uses logo color
             }
