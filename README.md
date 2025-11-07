@@ -1,6 +1,19 @@
 # RivalTune
 
-This application allows you to configure your SteelSeries gaming mouse on Linux using rivalcfg.
+An easy to use SteelSeries mouse configuration tool for Linux using "rivalcfg" as the backend.
+
+> **Note:** This project is still in its early stages of development. Features and stability are being actively improved.
+
+## Supported Devices
+
+Currently supported SteelSeries mice:
+- **Rival 3**
+- **Rival 100**
+- **Rival 105**
+
+More devices will be added in the future as development continues. 
+
+
 
 ##  Prerequisites
 
@@ -18,11 +31,22 @@ This application allows you to configure your SteelSeries gaming mouse on Linux 
 
 ## Installation
 
-TBC, currently work in progress.
+### Pre-compiled Releases (Recommended)
+
+Download the latest pre-compiled version from the [Releases](https://github.com/polydezcom/RivalTune/releases) page.
+
+### Flatpak
+
+Flatpak support is currently in testing and will be available soon.
 
 ## Usage
 
-TBC, currently work in progress.
+1. Download the latest release from the [Releases](https://github.com/polydezcom/RivalTune/releases) page
+2. Extract the archive
+3. Run the `rivaltune` executable
+4. Configure your SteelSeries mouse with the intuitive GUI
+
+**Note:** Make sure you have completed the prerequisites setup (Python 3.6+, rivalcfg, and udev rules) before running RivalTune.
 
 ## Screenshot
 
@@ -31,7 +55,9 @@ TBC, currently work in progress.
 
 ## Contributing
 
-We encourage contributions to this project! If you have any improvements or suggestions, please feel free to open an issue on GitHub.
+We encourage contributions to this project! If you have any improvements or suggestions, please feel free to open an issue or pull request on GitHub.
+
+RivalTune is built with **Flutter for Linux**. If you encounter any issues or have feature requests, please don't hesitate to reach out.
 
 ## License
 
