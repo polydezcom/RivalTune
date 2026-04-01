@@ -1,0 +1,1644 @@
+   0.105967335s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v0.1.0 (/home/berk/Projects/RivalTune)/Check { test: false }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
+   0.106025386s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-aae535a00030ba8a/bin-rivaltune`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: __libc_start_call_main
+  17: __libc_start_main_alias_1
+  18: <unknown>
+   0.108450280s  INFO prepare_target{force=false package_id=gettext-rs v0.7.7 target="gettextrs"}: cargo::core::compiler::fingerprint: fingerprint error for gettext-rs v0.7.7/Check { test: false }/TargetInner { ..: lib_target("gettextrs", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gettext-rs-0.7.7/src/lib.rs", Edition2015) }
+   0.108943990s  INFO prepare_target{force=false package_id=gettext-rs v0.7.7 target="gettextrs"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gettext-rs-10504bd379ea2ec8/lib-gettextrs`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: __libc_start_call_main
+  18: __libc_start_main_alias_1
+  19: <unknown>
+   0.109700470s  INFO prepare_target{force=false package_id=gettext-sys v0.26.0 target="gettext_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gettext-sys v0.26.0/Check { test: false }/TargetInner { ..: lib_target("gettext_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gettext-sys-0.26.0/lib.rs", Edition2015) }
+   0.109769334s  INFO prepare_target{force=false package_id=gettext-sys v0.26.0 target="gettext_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gettext-sys-8f0d70aa09af173e/lib-gettext_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.110692605s  INFO prepare_target{force=false package_id=locale_config v0.3.0 target="locale_config"}: cargo::core::compiler::fingerprint: fingerprint error for locale_config v0.3.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("locale_config", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/locale_config-0.3.0/src/lib.rs", Edition2015) }
+   0.110761252s  INFO prepare_target{force=false package_id=locale_config v0.3.0 target="locale_config"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/locale_config-8f16b8bb20deab56/lib-locale_config`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.111577214s  INFO prepare_target{force=false package_id=lazy_static v1.5.0 target="lazy_static"}: cargo::core::compiler::fingerprint: fingerprint error for lazy_static v1.5.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("lazy_static", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/lazy_static-1.5.0/src/lib.rs", Edition2015) }
+   0.111823197s  INFO prepare_target{force=false package_id=lazy_static v1.5.0 target="lazy_static"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/lazy_static-906f09b5a4e041d7/lib-lazy_static`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.112505550s  INFO prepare_target{force=false package_id=regex v1.12.3 target="regex"}: cargo::core::compiler::fingerprint: fingerprint error for regex v1.12.3/Check { test: false }/TargetInner { ..: lib_target("regex", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/regex-1.12.3/src/lib.rs", Edition2021) }
+   0.112553676s  INFO prepare_target{force=false package_id=regex v1.12.3 target="regex"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/regex-ec2bef5c21a6b1d0/lib-regex`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.113364201s  INFO prepare_target{force=false package_id=aho-corasick v1.1.4 target="aho_corasick"}: cargo::core::compiler::fingerprint: fingerprint error for aho-corasick v1.1.4/Check { test: false }/TargetInner { ..: lib_target("aho_corasick", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/aho-corasick-1.1.4/src/lib.rs", Edition2021) }
+   0.113419427s  INFO prepare_target{force=false package_id=aho-corasick v1.1.4 target="aho_corasick"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/aho-corasick-ad92eb4adbd55f35/lib-aho_corasick`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.114359722s  INFO prepare_target{force=false package_id=memchr v2.8.0 target="memchr"}: cargo::core::compiler::fingerprint: fingerprint error for memchr v2.8.0/Check { test: false }/TargetInner { benched: false, ..: lib_target("memchr", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/memchr-2.8.0/src/lib.rs", Edition2021) }
+   0.115308181s  INFO prepare_target{force=false package_id=memchr v2.8.0 target="memchr"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/memchr-5a883d98e8f7c712/lib-memchr`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.116282492s  INFO prepare_target{force=false package_id=regex-automata v0.4.14 target="regex_automata"}: cargo::core::compiler::fingerprint: fingerprint error for regex-automata v0.4.14/Check { test: false }/TargetInner { benched: false, ..: lib_target("regex_automata", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/regex-automata-0.4.14/src/lib.rs", Edition2021) }
+   0.116339098s  INFO prepare_target{force=false package_id=regex-automata v0.4.14 target="regex_automata"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/regex-automata-74091ae7b4fc0589/lib-regex_automata`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.116884370s  INFO prepare_target{force=false package_id=regex-syntax v0.8.10 target="regex_syntax"}: cargo::core::compiler::fingerprint: fingerprint error for regex-syntax v0.8.10/Check { test: false }/TargetInner { ..: lib_target("regex_syntax", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/regex-syntax-0.8.10/src/lib.rs", Edition2021) }
+   0.116936135s  INFO prepare_target{force=false package_id=regex-syntax v0.8.10 target="regex_syntax"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/regex-syntax-65f9786dd28885e4/lib-regex_syntax`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.117309822s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4 v0.9.7/Check { test: false }/TargetInner { ..: lib_target("gtk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-0.9.7/src/lib.rs", Edition2021) }
+   0.117359146s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-6a17c2a0eec7dfae/lib-gtk4`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: __libc_start_call_main
+  18: __libc_start_main_alias_1
+  19: <unknown>
+   0.118249449s  INFO prepare_target{force=false package_id=cairo-rs v0.20.12 target="cairo"}: cargo::core::compiler::fingerprint: fingerprint error for cairo-rs v0.20.12/Check { test: false }/TargetInner { ..: lib_target("cairo", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cairo-rs-0.20.12/src/lib.rs", Edition2021) }
+   0.118347789s  INFO prepare_target{force=false package_id=cairo-rs v0.20.12 target="cairo"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/cairo-rs-e83bea8e6fa2b8fa/lib-cairo`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.118933791s  INFO prepare_target{force=false package_id=bitflags v2.11.0 target="bitflags"}: cargo::core::compiler::fingerprint: fingerprint error for bitflags v2.11.0/Check { test: false }/TargetInner { ..: lib_target("bitflags", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bitflags-2.11.0/src/lib.rs", Edition2021) }
+   0.118981160s  INFO prepare_target{force=false package_id=bitflags v2.11.0 target="bitflags"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/bitflags-6078671a417b09b2/lib-bitflags`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.119856392s  INFO prepare_target{force=false package_id=cairo-sys-rs v0.20.10 target="cairo_sys"}: cargo::core::compiler::fingerprint: fingerprint error for cairo-sys-rs v0.20.10/Check { test: false }/TargetInner { ..: lib_target("cairo_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cairo-sys-rs-0.20.10/src/lib.rs", Edition2021) }
+   0.121391177s  INFO prepare_target{force=false package_id=cairo-sys-rs v0.20.10 target="cairo_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/cairo-sys-rs-53740cdafb53e615/lib-cairo_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.123961072s  INFO prepare_target{force=false package_id=glib-sys v0.20.10 target="glib_sys"}: cargo::core::compiler::fingerprint: fingerprint error for glib-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("glib_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.124050239s  INFO prepare_target{force=false package_id=glib-sys v0.20.10 target="glib_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/glib-sys-828854679aba3ac6/lib-glib_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.128457799s  INFO prepare_target{force=false package_id=libc v0.2.183 target="libc"}: cargo::core::compiler::fingerprint: fingerprint error for libc v0.2.183/Check { test: false }/TargetInner { ..: lib_target("libc", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.183/src/lib.rs", Edition2021) }
+   0.128489613s  INFO prepare_target{force=false package_id=libc v0.2.183 target="libc"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libc-f026fd399a5840ef/lib-libc`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.129937240s  INFO prepare_target{force=false package_id=glib v0.20.12 target="glib"}: cargo::core::compiler::fingerprint: fingerprint error for glib v0.20.12/Check { test: false }/TargetInner { ..: lib_target("glib", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-0.20.12/src/lib.rs", Edition2021) }
+   0.130002383s  INFO prepare_target{force=false package_id=glib v0.20.12 target="glib"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/glib-3f65125e9a370843/lib-glib`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.131661505s  INFO prepare_target{force=false package_id=futures-channel v0.3.32 target="futures_channel"}: cargo::core::compiler::fingerprint: fingerprint error for futures-channel v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_channel", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.32/src/lib.rs", Edition2018) }
+   0.131693772s  INFO prepare_target{force=false package_id=futures-channel v0.3.32 target="futures_channel"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-channel-b5bacb12c3859c8e/lib-futures_channel`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.132547656s  INFO prepare_target{force=false package_id=futures-core v0.3.32 target="futures_core"}: cargo::core::compiler::fingerprint: fingerprint error for futures-core v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_core", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-core-0.3.32/src/lib.rs", Edition2018) }
+   0.132621892s  INFO prepare_target{force=false package_id=futures-core v0.3.32 target="futures_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-core-09942e9aff51f4a2/lib-futures_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.133367306s  INFO prepare_target{force=false package_id=futures-executor v0.3.32 target="futures_executor"}: cargo::core::compiler::fingerprint: fingerprint error for futures-executor v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_executor", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-executor-0.3.32/src/lib.rs", Edition2018) }
+   0.133555335s  INFO prepare_target{force=false package_id=futures-executor v0.3.32 target="futures_executor"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-executor-1f1d9ea9e6bd4a9d/lib-futures_executor`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.134678244s  INFO prepare_target{force=false package_id=futures-task v0.3.32 target="futures_task"}: cargo::core::compiler::fingerprint: fingerprint error for futures-task v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_task", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-task-0.3.32/src/lib.rs", Edition2018) }
+   0.134760595s  INFO prepare_target{force=false package_id=futures-task v0.3.32 target="futures_task"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-task-f385da5baa6b736f/lib-futures_task`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.135691642s  INFO prepare_target{force=false package_id=futures-util v0.3.32 target="futures_util"}: cargo::core::compiler::fingerprint: fingerprint error for futures-util v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_util", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.32/src/lib.rs", Edition2018) }
+   0.135728385s  INFO prepare_target{force=false package_id=futures-util v0.3.32 target="futures_util"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-util-792bf6a9032285d0/lib-futures_util`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.137806199s  INFO prepare_target{force=false package_id=pin-project-lite v0.2.17 target="pin_project_lite"}: cargo::core::compiler::fingerprint: fingerprint error for pin-project-lite v0.2.17/Check { test: false }/TargetInner { doc_scrape_examples: Disabled, ..: lib_target("pin_project_lite", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pin-project-lite-0.2.17/src/lib.rs", Edition2018) }
+   0.137897693s  INFO prepare_target{force=false package_id=pin-project-lite v0.2.17 target="pin_project_lite"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/pin-project-lite-e75bee2a78c4cd0a/lib-pin_project_lite`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: <unknown>
+  22: __libc_start_call_main
+  23: __libc_start_main_alias_1
+  24: <unknown>
+   0.138500613s  INFO prepare_target{force=false package_id=slab v0.4.12 target="slab"}: cargo::core::compiler::fingerprint: fingerprint error for slab v0.4.12/Check { test: false }/TargetInner { ..: lib_target("slab", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/slab-0.4.12/src/lib.rs", Edition2018) }
+   0.138552498s  INFO prepare_target{force=false package_id=slab v0.4.12 target="slab"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/slab-863bfe81e665966a/lib-slab`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: <unknown>
+  22: __libc_start_call_main
+  23: __libc_start_main_alias_1
+  24: <unknown>
+   0.138940220s  INFO prepare_target{force=false package_id=gio-sys v0.20.10 target="gio_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gio-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("gio_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.138981627s  INFO prepare_target{force=false package_id=gio-sys v0.20.10 target="gio_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gio-sys-972b899c227659c6/lib-gio_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.140053636s  INFO prepare_target{force=false package_id=gobject-sys v0.20.10 target="gobject_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gobject-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("gobject_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gobject-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.140075991s  INFO prepare_target{force=false package_id=gobject-sys v0.20.10 target="gobject_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gobject-sys-5824b22f46bd8c20/lib-gobject_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.141718199s  INFO prepare_target{force=false package_id=smallvec v1.15.1 target="smallvec"}: cargo::core::compiler::fingerprint: fingerprint error for smallvec v1.15.1/Check { test: false }/TargetInner { ..: lib_target("smallvec", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/smallvec-1.15.1/src/lib.rs", Edition2018) }
+   0.141751383s  INFO prepare_target{force=false package_id=smallvec v1.15.1 target="smallvec"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/smallvec-430804386c28eedc/lib-smallvec`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.142085380s  INFO prepare_target{force=false package_id=field-offset v0.3.6 target="field_offset"}: cargo::core::compiler::fingerprint: fingerprint error for field-offset v0.3.6/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("field_offset", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/field-offset-0.3.6/src/lib.rs", Edition2015) }
+   0.142108872s  INFO prepare_target{force=false package_id=field-offset v0.3.6 target="field_offset"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/field-offset-c89de5d565511be3/lib-field_offset`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.142991071s  INFO prepare_target{force=false package_id=memoffset v0.9.1 target="memoffset"}: cargo::core::compiler::fingerprint: fingerprint error for memoffset v0.9.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("memoffset", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/memoffset-0.9.1/src/lib.rs", Edition2015) }
+   0.143048366s  INFO prepare_target{force=false package_id=memoffset v0.9.1 target="memoffset"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/memoffset-ec5549caa333e03e/lib-memoffset`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.143704277s  INFO prepare_target{force=false package_id=gdk-pixbuf v0.20.10 target="gdk_pixbuf"}: cargo::core::compiler::fingerprint: fingerprint error for gdk-pixbuf v0.20.10/Check { test: false }/TargetInner { ..: lib_target("gdk_pixbuf", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk-pixbuf-0.20.10/src/lib.rs", Edition2021) }
+   0.143754837s  INFO prepare_target{force=false package_id=gdk-pixbuf v0.20.10 target="gdk_pixbuf"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk-pixbuf-442ec9b1607b703b/lib-gdk_pixbuf`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.144669464s  INFO prepare_target{force=false package_id=gdk-pixbuf-sys v0.20.10 target="gdk_pixbuf_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gdk-pixbuf-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("gdk_pixbuf_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk-pixbuf-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.144695712s  INFO prepare_target{force=false package_id=gdk-pixbuf-sys v0.20.10 target="gdk_pixbuf_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk-pixbuf-sys-fb21ab5160fd4d57/lib-gdk_pixbuf_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.145477390s  INFO prepare_target{force=false package_id=gio v0.20.12 target="gio"}: cargo::core::compiler::fingerprint: fingerprint error for gio v0.20.12/Check { test: false }/TargetInner { ..: lib_target("gio", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gio-0.20.12/src/lib.rs", Edition2021) }
+   0.145493864s  INFO prepare_target{force=false package_id=gio v0.20.12 target="gio"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gio-1cdec65064d5c212/lib-gio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.146233045s  INFO prepare_target{force=false package_id=futures-io v0.3.32 target="futures_io"}: cargo::core::compiler::fingerprint: fingerprint error for futures-io v0.3.32/Check { test: false }/TargetInner { ..: lib_target("futures_io", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-io-0.3.32/src/lib.rs", Edition2018) }
+   0.146251024s  INFO prepare_target{force=false package_id=futures-io v0.3.32 target="futures_io"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/futures-io-6932a0ff462ad267/lib-futures_io`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.147122183s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-0.9.6/src/lib.rs", Edition2021) }
+   0.147168243s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-eb92909016f5671b/lib-gdk4`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.147975906s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   0.148035311s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f6408e266676aa2e/lib-gdk4_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.148841133s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/build.rs", Edition2021) }
+   0.148891321s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f9de43a4d2f522aa/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.149315361s  INFO prepare_target{force=false package_id=pango-sys v0.20.10 target="pango_sys"}: cargo::core::compiler::fingerprint: fingerprint error for pango-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("pango_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pango-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.149342560s  INFO prepare_target{force=false package_id=pango-sys v0.20.10 target="pango_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/pango-sys-f9a6f98b392ad532/lib-pango_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.150145504s  INFO prepare_target{force=false package_id=pango v0.20.12 target="pango"}: cargo::core::compiler::fingerprint: fingerprint error for pango v0.20.12/Check { test: false }/TargetInner { ..: lib_target("pango", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pango-0.20.12/src/lib.rs", Edition2021) }
+   0.150167231s  INFO prepare_target{force=false package_id=pango v0.20.12 target="pango"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/pango-b807bba832eb106b/lib-pango`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.151154708s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-rs v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-rs-0.20.10/src/lib.rs", Edition2021) }
+   0.151215511s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-rs-ff352042d6051bab/lib-graphene`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.151859832s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/src/lib.rs", Edition2021) }
+   0.151917615s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-1d7b3b42b8743a03/lib-graphene_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.152599959s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/build.rs", Edition2021) }
+   0.152652551s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-f086251f7dbdb5ef/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.152960154s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-0.9.6/src/lib.rs", Edition2021) }
+   0.152974804s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-53c409b4c9fcbfa1/lib-gsk4`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.153769707s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   0.153789228s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-4a346a362f6a1bdf/lib-gsk4_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: __libc_start_call_main
+  20: __libc_start_main_alias_1
+  21: <unknown>
+   0.154550396s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/build.rs", Edition2021) }
+   0.154570338s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-1e2cff94861a8b9e/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: __libc_start_call_main
+  22: __libc_start_main_alias_1
+  23: <unknown>
+   0.154980582s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gtk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   0.154998367s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-3975ef4364eedc58/lib-gtk4_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.155837199s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/build.rs", Edition2021) }
+   0.155859192s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-ce5b4d2ef2b7b059/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.156190803s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-0.7.2/src/lib.rs", Edition2021) }
+   0.156209687s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-6532c4df29f1c085/lib-libadwaita`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: __libc_start_call_main
+  18: __libc_start_main_alias_1
+  19: <unknown>
+   0.157072853s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/src/lib.rs", Edition2021) }
+   0.157105827s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-3de628684b0cfdc7/lib-libadwaita_sys`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: __libc_start_call_main
+  19: __libc_start_main_alias_1
+  20: <unknown>
+   0.159331927s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/build.rs", Edition2021) }
+   0.159393814s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-664e5302d159c178/run-build-script-build-script-build`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: __libc_start_call_main
+  21: __libc_start_main_alias_1
+  22: <unknown>
+   0.160114089s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v0.1.0 (/home/berk/Projects/RivalTune)/Check { test: true }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
+   0.160182116s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-e9a8ac933f3d9bc4/test-bin-rivaltune`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: __libc_start_call_main
+  17: __libc_start_main_alias_1
+  18: <unknown>
+    Checking memchr v2.8.0
+    Checking libc v0.2.183
+    Checking futures-core v0.3.32
+    Checking futures-task v0.3.32
+    Checking pin-project-lite v0.2.17
+    Checking slab v0.4.12
+    Checking bitflags v2.11.0
+    Checking smallvec v1.15.1
+   Compiling graphene-sys v0.20.10
+    Checking futures-channel v0.3.32
+warning: graphene-sys@0.20.10: 
+error: failed to run custom build command for `graphene-sys v0.20.10`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/graphene-sys-efd5d1a365f48952/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/Cargo.toml
+  cargo:rerun-if-env-changed=GRAPHENE_GOBJECT_1.0_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+  cargo:warning=
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags graphene-gobject-1.0 'graphene-gobject-1.0 >= 1.10'
+
+  The system library `graphene-gobject-1.0` required by crate `graphene-sys` was not found.
+  The file `graphene-gobject-1.0.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `graphene-gobject-1.0.pc`.
+
+warning: build failed, waiting for other jobs to finish...
+   Compiling gdk4-sys v0.9.6
+    Checking futures-io v0.3.32
+error: failed to run custom build command for `gdk4-sys v0.9.6`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gdk4-sys-27b6f8b18c4702b6/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/Cargo.toml
+  cargo:rerun-if-env-changed=GTK4_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+
+  --- stderr
+
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags gtk4 'gtk4 >= 4.16'
+
+  The system library `gtk4` required by crate `gdk4-sys` was not found.
+  The file `gtk4.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `gtk4.pc`.
+
+   Compiling gsk4-sys v0.9.6
+   Compiling gtk4-sys v0.9.6
+warning: gsk4-sys@0.9.6: 
+error: failed to run custom build command for `gsk4-sys v0.9.6`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gsk4-sys-fe79d072c93d4840/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/Cargo.toml
+  cargo:rerun-if-env-changed=GTK4_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+  cargo:warning=
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags gtk4 'gtk4 >= 4.16'
+
+  The system library `gtk4` required by crate `gsk4-sys` was not found.
+  The file `gtk4.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `gtk4.pc`.
+
+    Checking regex-syntax v0.8.10
+    Checking memoffset v0.9.1
+warning: gtk4-sys@0.9.6: 
+error: failed to run custom build command for `gtk4-sys v0.9.6`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gtk4-sys-1f93d973a4db1145/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/Cargo.toml
+  cargo:rerun-if-env-changed=GTK4_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+  cargo:warning=
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags gtk4 'gtk4 >= 4.16'
+
+  The system library `gtk4` required by crate `gtk4-sys` was not found.
+  The file `gtk4.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `gtk4.pc`.
+
+    Checking lazy_static v1.5.0
+    Checking field-offset v0.3.6
+    Checking futures-util v0.3.32
+    Checking gettext-sys v0.26.0
+    Checking aho-corasick v1.1.4
+    Checking glib-sys v0.20.10
+    Checking gobject-sys v0.20.10
+    Checking cairo-sys-rs v0.20.10
+    Checking gio-sys v0.20.10
+    Checking pango-sys v0.20.10
+    Checking regex-automata v0.4.14
+    Checking gdk-pixbuf-sys v0.20.10
+    Checking futures-executor v0.3.32
+    Checking glib v0.20.12
+    Checking regex v1.12.3
+    Checking locale_config v0.3.0
+    Checking gettext-rs v0.7.7
+    Checking gio v0.20.12
+    Checking cairo-rs v0.20.12
+    Checking gdk-pixbuf v0.20.10
+    Checking pango v0.20.12
