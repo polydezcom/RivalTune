@@ -1,0 +1,8 @@
+{
+    "name": "python3-rivalcfg",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --verbose --exists-action=i --prefix=${FLATPAK_DEST} rivalcfg"
+    ],
+    "sources": []
+}

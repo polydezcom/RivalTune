@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=RivalTune
+Comment=Configure SteelSeries mice
+Exec=rivaltune
+Icon=com.polydez.rivaltune
+Terminal=false
+Type=Application
+Categories=Utility;Settings;HardwareSettings;
+Keywords=GTK;Mouse;SteelSeries;Rival;Gaming;
+StartupNotify=true
+DBusActivatable=true

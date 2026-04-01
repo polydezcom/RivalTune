@@ -1,0 +1,7 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+data/com.polydez.rivaltune.desktop.in
+data/com.polydez.rivaltune.metainfo.xml.in
+data/com.polydez.rivaltune.gschema.xml
+src/onboarding.ui
+src/window.ui

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="rivaltune">
+	<schema id="com.polydez.rivaltune" path="/com/polydez/rivaltune/">
+		<key name="onboarding-complete" type="b">
+			<default>false</default>
+			<summary>Onboarding Complete</summary>
+			<description>Whether the initial setup has been completed</description>
+		</key>
+	</schema>
+</schemalist>

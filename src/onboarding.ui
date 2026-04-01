@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.0"/>
+  <template class="RivaltuneOnboardingPage" parent="AdwBin">
+    <child>
+      <object class="AdwStatusPage" id="status_page">
+        <property name="icon-name">input-mouse-symbolic</property>
+        <property name="title" translatable="yes">Welcome to RivalTune</property>
+        <property name="description" translatable="yes">Configure your SteelSeries mouse on Linux using rivalcfg</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">18</property>
+            <property name="halign">center</property>
+            <child>
+              <object class="AdwPreferencesGroup">
+                <property name="title" translatable="yes">Setup</property>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">rivalcfg</property>
+                    <property name="subtitle" translatable="yes">Required to configure your mouse</property>
+                    <child type="suffix">
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">8</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="GtkLabel" id="rivalcfg_status_label">
+                            <property name="label" translatable="yes">Checking…</property>
+                            <style>
+                              <class name="dim-label"/>
+                              <class name="caption"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="install_button">
+                            <property name="label" translatable="yes">Install Guide</property>
+                            <property name="valign">center</property>
+                            <signal name="clicked" handler="on_install_clicked" swapped="true"/>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">udev Rules</property>
+                    <property name="subtitle" translatable="yes">Allows non-root access to the mouse</property>
+                    <child type="suffix">
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">8</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="GtkLabel" id="udev_status_label">
+                            <property name="label" translatable="yes">Checking…</property>
+                            <style>
+                              <class name="dim-label"/>
+                              <class name="caption"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="udev_button">
+                            <property name="label" translatable="yes">Update udev</property>
+                            <property name="valign">center</property>
+                            <signal name="clicked" handler="on_udev_clicked" swapped="true"/>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="continue_button">
+                <property name="label" translatable="yes">Continue</property>
+                <property name="halign">center</property>
+                <property name="sensitive">false</property>
+                <signal name="clicked" handler="on_continue_clicked" swapped="true"/>
+                <style>
+                  <class name="suggested-action"/>
+                  <class name="pill"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
