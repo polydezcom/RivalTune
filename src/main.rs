@@ -24,6 +24,7 @@ mod device_page;
 mod devices;
 mod onboarding;
 mod rivalcfg;
+mod state;
 mod window;
 
 use self::application::RivaltuneApplication;

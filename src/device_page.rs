@@ -21,9 +21,22 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gtk::glib;
+use std::collections::HashMap;
 use std::cell::RefCell;
 
 use crate::devices::DeviceProfile;
+use crate::state::{DeviceState, UserPreset};
+
+const LIGHT_THEMES: [(&str, [&str; 8]); 8] = [
+    ("Sunset", ["#ff6b6b", "#ff8e53", "#ffcd56", "#ffe66d", "#ff6b6b", "#ff8e53", "#ffcd56", "#ffe66d"]),
+    ("Ocean", ["#004e92", "#000428", "#2c7da0", "#61a5c2", "#004e92", "#000428", "#2c7da0", "#61a5c2"]),
+    ("Forest", ["#1b4332", "#2d6a4f", "#40916c", "#74c69d", "#1b4332", "#2d6a4f", "#40916c", "#74c69d"]),
+    ("Aurora", ["#80ffdb", "#72efdd", "#64dfdf", "#48bfe3", "#5390d9", "#6930c3", "#7400b8", "#5e60ce"]),
+    ("Volcano", ["#370617", "#6a040f", "#9d0208", "#d00000", "#dc2f02", "#e85d04", "#f48c06", "#faa307"]),
+    ("Ice", ["#caf0f8", "#ade8f4", "#90e0ef", "#48cae4", "#00b4d8", "#0096c7", "#0077b6", "#023e8a"]),
+    ("Candy", ["#ff99c8", "#fcf6bd", "#d0f4de", "#a9def9", "#e4c1f9", "#ff99c8", "#fcf6bd", "#a9def9"]),
+    ("Mono", ["#ffffff", "#e0e0e0", "#c2c2c2", "#a3a3a3", "#858585", "#666666", "#474747", "#282828"]),
+];
 
 mod imp {
     use super::*;
@@ -34,6 +47,12 @@ mod imp {
         pub sensitivity_scales: RefCell<Vec<gtk::Scale>>,
         pub color_buttons: RefCell<Vec<(String, gtk::ColorDialogButton)>>,
         pub polling_rate_dropdown: RefCell<Option<gtk::DropDown>>,
+        pub rgb_switch: RefCell<Option<gtk::Switch>>,
+        pub preset_name_entry: RefCell<Option<gtk::Entry>>,
+        pub preset_dropdown: RefCell<Option<gtk::DropDown>>,
+        pub preset_model: RefCell<Option<gtk::StringList>>,
+        pub theme_dropdown: RefCell<Option<gtk::DropDown>>,
+        pub user_presets: RefCell<Vec<UserPreset>>,
         pub profile_name: RefCell<String>,
     }
 
@@ -95,6 +114,9 @@ impl DevicePage {
         // --- Color section ---
         self.build_color_section(&main_box, profile);
 
+        // --- Presets section ---
+        self.build_presets_section(&main_box, profile);
+
         // --- Polling Rate section ---
         self.build_polling_rate_section(&main_box, profile);
 
@@ -106,6 +128,8 @@ impl DevicePage {
         self.set_child(Some(&scroll));
 
         imp.content_box.replace(Some(main_box));
+        self.restore_state(profile);
+        self.refresh_preset_dropdown(profile);
     }
 
     fn build_sensitivity_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
@@ -193,6 +217,18 @@ impl DevicePage {
             .description("Set the LED colors for each zone")
             .build();
 
+        let rgb_row = adw::ActionRow::builder()
+            .title("Enable RGB")
+            .subtitle("Turn off to disable all lighting")
+            .build();
+
+        let rgb_switch = gtk::Switch::builder()
+            .active(true)
+            .valign(gtk::Align::Center)
+            .build();
+        rgb_row.add_suffix(&rgb_switch);
+        group.add(&rgb_row);
+
         let mut buttons = Vec::new();
 
         for zone in profile.color_zones {
@@ -217,7 +253,125 @@ impl DevicePage {
             buttons.push((zone.cli_flag.to_string(), color_button));
         }
 
+        let theme_row = adw::ActionRow::builder()
+            .title("Built-in Light Theme")
+            .subtitle("Quickly apply one of the included color themes")
+            .build();
+
+        let theme_items: Vec<&str> = LIGHT_THEMES.iter().map(|(name, _)| *name).collect();
+        let theme_model = gtk::StringList::new(&theme_items);
+        let theme_dropdown = gtk::DropDown::builder()
+            .model(&theme_model)
+            .selected(0)
+            .valign(gtk::Align::Center)
+            .build();
+
+        let theme_apply = gtk::Button::builder()
+            .label("Apply Theme")
+            .css_classes(vec!["pill".to_string()])
+            .valign(gtk::Align::Center)
+            .build();
+
+        let theme_box = gtk::Box::builder()
+            .orientation(gtk::Orientation::Horizontal)
+            .spacing(8)
+            .build();
+        theme_box.append(&theme_dropdown);
+        theme_box.append(&theme_apply);
+
+        theme_row.add_suffix(&theme_box);
+        group.add(&theme_row);
+
+        let page_for_switch = self.clone();
+        let profile_for_switch = profile;
+        rgb_switch.connect_active_notify(move |_| {
+            page_for_switch.update_rgb_widgets_enabled();
+            page_for_switch.save_current_state(profile_for_switch);
+        });
+
+        let page_for_theme = self.clone();
+        let profile_for_theme = profile;
+        theme_apply.connect_clicked(move |_| {
+            page_for_theme.apply_selected_theme();
+            page_for_theme.save_current_state(profile_for_theme);
+        });
+
+        imp.rgb_switch.replace(Some(rgb_switch));
+        imp.theme_dropdown.replace(Some(theme_dropdown));
         imp.color_buttons.replace(buttons);
+        parent.append(&group);
+    }
+
+    fn build_presets_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
+        let imp = self.imp();
+
+        let group = adw::PreferencesGroup::builder()
+            .title("Presets")
+            .description("Save and re-apply complete device settings")
+            .build();
+
+        let save_row = adw::ActionRow::builder()
+            .title("Save Current Settings")
+            .build();
+
+        let preset_name_entry = gtk::Entry::builder()
+            .placeholder_text("Preset name")
+            .width_chars(18)
+            .build();
+
+        let save_button = gtk::Button::builder()
+            .label("Save")
+            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
+            .build();
+
+        let save_box = gtk::Box::builder()
+            .orientation(gtk::Orientation::Horizontal)
+            .spacing(8)
+            .build();
+        save_box.append(&preset_name_entry);
+        save_box.append(&save_button);
+        save_row.add_suffix(&save_box);
+        group.add(&save_row);
+
+        let apply_row = adw::ActionRow::builder()
+            .title("Apply Saved Preset")
+            .build();
+
+        let preset_model = gtk::StringList::new(&[]);
+        let preset_dropdown = gtk::DropDown::builder()
+            .model(&preset_model)
+            .valign(gtk::Align::Center)
+            .build();
+
+        let apply_button = gtk::Button::builder()
+            .label("Apply Preset")
+            .css_classes(vec!["pill".to_string()])
+            .build();
+
+        let apply_box = gtk::Box::builder()
+            .orientation(gtk::Orientation::Horizontal)
+            .spacing(8)
+            .build();
+        apply_box.append(&preset_dropdown);
+        apply_box.append(&apply_button);
+        apply_row.add_suffix(&apply_box);
+        group.add(&apply_row);
+
+        let page_for_save = self.clone();
+        let profile_for_save = profile;
+        save_button.connect_clicked(move |_| {
+            page_for_save.save_current_as_preset(profile_for_save);
+        });
+
+        let page_for_apply = self.clone();
+        let profile_for_apply = profile;
+        apply_button.connect_clicked(move |_| {
+            page_for_apply.apply_selected_preset(profile_for_apply);
+        });
+
+        imp.preset_name_entry.replace(Some(preset_name_entry));
+        imp.preset_model.replace(Some(preset_model));
+        imp.preset_dropdown.replace(Some(preset_dropdown));
         parent.append(&group);
     }
 
@@ -248,6 +402,12 @@ impl DevicePage {
         if let Some(idx) = profile.polling_rates.iter().position(|r| *r == 1000) {
             dropdown.set_selected(idx as u32);
         }
+
+        let page_for_polling = self.clone();
+        let profile_for_polling = profile;
+        dropdown.connect_selected_notify(move |_| {
+            page_for_polling.save_current_state(profile_for_polling);
+        });
 
         row.add_suffix(&dropdown);
         group.add(&row);
@@ -299,39 +459,20 @@ impl DevicePage {
     }
 
     fn apply_settings(&self, profile: &'static DeviceProfile, button: &gtk::Button) {
-        let imp = self.imp();
         button.set_sensitive(false);
 
-        // Collect sensitivity presets
-        let scales = imp.sensitivity_scales.borrow();
-        let presets: Vec<u32> = scales.iter().map(|s| s.value() as u32).collect();
-
-        // Collect colors
-        let color_buttons = imp.color_buttons.borrow();
-        let colors: Vec<(String, String)> = color_buttons
-            .iter()
-            .map(|(flag, btn)| {
-                let rgba = btn.rgba();
-                let hex = format!(
-                    "#{:02x}{:02x}{:02x}",
-                    (rgba.red() * 255.0) as u8,
-                    (rgba.green() * 255.0) as u8,
-                    (rgba.blue() * 255.0) as u8
-                );
-                (flag.clone(), hex)
-            })
-            .collect();
-
-        // Collect polling rate
-        let polling_rate = {
-            let dropdown = imp.polling_rate_dropdown.borrow();
-            if let Some(ref dd) = *dropdown {
-                let idx = dd.selected() as usize;
-                profile.polling_rates.get(idx).copied().unwrap_or(1000)
-            } else {
-                1000
+        let state = self.collect_current_state(profile);
+        let presets = state.sensitivities.clone();
+        let colors = if state.rgb_enabled {
+            state.colors
+        } else {
+            let mut off = HashMap::new();
+            for zone in profile.color_zones {
+                off.insert(zone.cli_flag.to_string(), "#000000".to_string());
             }
+            off
         };
+        let polling_rate = state.polling_rate;
 
         // Apply all settings
         let mut errors = Vec::new();
@@ -352,8 +493,288 @@ impl DevicePage {
 
         if !errors.is_empty() {
             eprintln!("Errors applying settings:\n{}", errors.join("\n"));
+        } else if let Err(e) = crate::state::save_device_state(profile.name, self.collect_current_state(profile)) {
+            eprintln!("Failed to persist device settings: {}", e);
         }
 
         button.set_sensitive(true);
     }
+
+    fn collect_current_state(&self, profile: &'static DeviceProfile) -> DeviceState {
+        let imp = self.imp();
+        let sensitivities = imp
+            .sensitivity_scales
+            .borrow()
+            .iter()
+            .map(|s| s.value() as u32)
+            .collect::<Vec<_>>();
+
+        let colors = imp
+            .color_buttons
+            .borrow()
+            .iter()
+            .map(|(flag, btn)| (flag.clone(), rgba_to_hex(btn.rgba())))
+            .collect::<HashMap<_, _>>();
+
+        let polling_rate = {
+            let dropdown = imp.polling_rate_dropdown.borrow();
+            if let Some(ref dd) = *dropdown {
+                let idx = dd.selected() as usize;
+                profile.polling_rates.get(idx).copied().unwrap_or(1000)
+            } else {
+                1000
+            }
+        };
+
+        let rgb_enabled = imp
+            .rgb_switch
+            .borrow()
+            .as_ref()
+            .map(|s| s.is_active())
+            .unwrap_or(true);
+
+        DeviceState {
+            sensitivities,
+            colors,
+            polling_rate,
+            rgb_enabled,
+        }
+    }
+
+    fn save_current_state(&self, profile: &'static DeviceProfile) {
+        let state = self.collect_current_state(profile);
+        if let Err(e) = crate::state::save_device_state(profile.name, state) {
+            eprintln!("Failed to persist device settings: {}", e);
+        }
+    }
+
+    fn restore_state(&self, profile: &'static DeviceProfile) {
+        let Some(state) = crate::state::load_device_state(profile.name) else {
+            self.connect_change_watchers(profile);
+            return;
+        };
+
+        let imp = self.imp();
+
+        for (idx, scale) in imp.sensitivity_scales.borrow().iter().enumerate() {
+            if let Some(value) = state.sensitivities.get(idx) {
+                scale.set_value(*value as f64);
+            }
+        }
+
+        for (flag, button) in imp.color_buttons.borrow().iter() {
+            if let Some(color) = state.colors.get(flag) {
+                if let Some(rgba) = hex_to_rgba(color) {
+                    button.set_rgba(&rgba);
+                }
+            }
+        }
+
+        if let Some(dropdown) = imp.polling_rate_dropdown.borrow().as_ref() {
+            if let Some(pos) = profile
+                .polling_rates
+                .iter()
+                .position(|r| *r == state.polling_rate)
+            {
+                dropdown.set_selected(pos as u32);
+            }
+        }
+
+        if let Some(rgb_switch) = imp.rgb_switch.borrow().as_ref() {
+            rgb_switch.set_active(state.rgb_enabled);
+        }
+
+        self.update_rgb_widgets_enabled();
+        self.connect_change_watchers(profile);
+    }
+
+    fn connect_change_watchers(&self, profile: &'static DeviceProfile) {
+        let imp = self.imp();
+
+        for scale in imp.sensitivity_scales.borrow().iter() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            scale.connect_value_changed(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
+
+        for (_, button) in imp.color_buttons.borrow().iter() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            button.connect_rgba_notify(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
+    }
+
+    fn update_rgb_widgets_enabled(&self) {
+        let imp = self.imp();
+        let enabled = imp
+            .rgb_switch
+            .borrow()
+            .as_ref()
+            .map(|s| s.is_active())
+            .unwrap_or(true);
+
+        for (_, button) in imp.color_buttons.borrow().iter() {
+            button.set_sensitive(enabled);
+        }
+
+        if let Some(theme_dropdown) = imp.theme_dropdown.borrow().as_ref() {
+            theme_dropdown.set_sensitive(enabled);
+        }
+    }
+
+    fn refresh_preset_dropdown(&self, profile: &'static DeviceProfile) {
+        let imp = self.imp();
+        let presets = crate::state::list_presets(profile.name);
+        let names = presets
+            .iter()
+            .map(|p| p.name.as_str())
+            .collect::<Vec<_>>();
+
+        let model = gtk::StringList::new(&names);
+        if let Some(dropdown) = imp.preset_dropdown.borrow().as_ref() {
+            dropdown.set_model(Some(&model));
+            if !presets.is_empty() {
+                dropdown.set_selected(0);
+            }
+        }
+
+        imp.preset_model.replace(Some(model));
+        imp.user_presets.replace(presets);
+    }
+
+    fn save_current_as_preset(&self, profile: &'static DeviceProfile) {
+        let imp = self.imp();
+        let name = imp
+            .preset_name_entry
+            .borrow()
+            .as_ref()
+            .map(|entry| entry.text().trim().to_string())
+            .unwrap_or_default();
+
+        let name = if name.is_empty() {
+            let count = crate::state::list_presets(profile.name).len() + 1;
+            format!("Preset {}", count)
+        } else {
+            name
+        };
+
+        let state = self.collect_current_state(profile);
+        let preset = UserPreset {
+            name,
+            sensitivities: state.sensitivities,
+            colors: state.colors,
+            polling_rate: state.polling_rate,
+            rgb_enabled: state.rgb_enabled,
+        };
+
+        if let Err(e) = crate::state::save_preset(profile.name, preset) {
+            eprintln!("Failed to save preset: {}", e);
+            return;
+        }
+
+        if let Some(entry) = imp.preset_name_entry.borrow().as_ref() {
+            entry.set_text("");
+        }
+
+        self.refresh_preset_dropdown(profile);
+        self.save_current_state(profile);
+    }
+
+    fn apply_selected_preset(&self, profile: &'static DeviceProfile) {
+        let imp = self.imp();
+        let idx = imp
+            .preset_dropdown
+            .borrow()
+            .as_ref()
+            .map(|dd| dd.selected() as usize)
+            .unwrap_or(usize::MAX);
+
+        let presets = imp.user_presets.borrow();
+        let Some(preset) = presets.get(idx) else {
+            return;
+        };
+
+        for (i, scale) in imp.sensitivity_scales.borrow().iter().enumerate() {
+            if let Some(val) = preset.sensitivities.get(i) {
+                scale.set_value(*val as f64);
+            }
+        }
+
+        for (flag, button) in imp.color_buttons.borrow().iter() {
+            if let Some(hex) = preset.colors.get(flag) {
+                if let Some(rgba) = hex_to_rgba(hex) {
+                    button.set_rgba(&rgba);
+                }
+            }
+        }
+
+        if let Some(dd) = imp.polling_rate_dropdown.borrow().as_ref() {
+            if let Some(pos) = profile
+                .polling_rates
+                .iter()
+                .position(|r| *r == preset.polling_rate)
+            {
+                dd.set_selected(pos as u32);
+            }
+        }
+
+        if let Some(rgb_switch) = imp.rgb_switch.borrow().as_ref() {
+            rgb_switch.set_active(preset.rgb_enabled);
+        }
+
+        self.update_rgb_widgets_enabled();
+        self.save_current_state(profile);
+    }
+
+    fn apply_selected_theme(&self) {
+        let imp = self.imp();
+        let idx = imp
+            .theme_dropdown
+            .borrow()
+            .as_ref()
+            .map(|dd| dd.selected() as usize)
+            .unwrap_or(0);
+
+        let Some((_, palette)) = LIGHT_THEMES.get(idx) else {
+            return;
+        };
+
+        for (zone_index, (_, button)) in imp.color_buttons.borrow().iter().enumerate() {
+            let color = palette[zone_index % palette.len()];
+            if let Some(rgba) = hex_to_rgba(color) {
+                button.set_rgba(&rgba);
+            }
+        }
+    }
+}
+
+fn rgba_to_hex(rgba: gtk::gdk::RGBA) -> String {
+    format!(
+        "#{:02x}{:02x}{:02x}",
+        (rgba.red() * 255.0) as u8,
+        (rgba.green() * 255.0) as u8,
+        (rgba.blue() * 255.0) as u8
+    )
+}
+
+fn hex_to_rgba(hex: &str) -> Option<gtk::gdk::RGBA> {
+    let normalized = hex.trim().trim_start_matches('#');
+    if normalized.len() != 6 {
+        return None;
+    }
+
+    let r = u8::from_str_radix(&normalized[0..2], 16).ok()?;
+    let g = u8::from_str_radix(&normalized[2..4], 16).ok()?;
+    let b = u8::from_str_radix(&normalized[4..6], 16).ok()?;
+
+    Some(gtk::gdk::RGBA::new(
+        r as f32 / 255.0,
+        g as f32 / 255.0,
+        b as f32 / 255.0,
+        1.0,
+    ))
 }

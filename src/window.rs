@@ -96,6 +96,20 @@ impl RivaltuneWindow {
             .title("No Mouse Detected")
             .description("Connect a supported SteelSeries mouse and click Refresh")
             .build();
+
+        let center_refresh = gtk::Button::builder()
+            .label("Refresh")
+            .icon_name("view-refresh-symbolic")
+            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
+            .halign(gtk::Align::Center)
+            .build();
+
+        let win = self.clone();
+        center_refresh.connect_clicked(move |_| {
+            win.try_detect_device();
+        });
+        no_device.set_child(Some(&center_refresh));
+
         stack.add_named(&no_device, Some("no-device"));
 
         // Device config page (placeholder, will be replaced on detection)
