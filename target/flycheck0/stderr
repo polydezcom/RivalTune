@@ -1,5 +1,6 @@
-   0.305138028s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v0.1.0 (/home/berk/Projects/RivalTune)/Check { test: false }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
-   0.305227253s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-b6824d2c00f32699/bin-rivaltune`
+    Blocking waiting for file lock on build directory
+   1.554233239s  INFO prepare_target{force=false package_id=rivaltune v1.7.3 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v1.7.3 (/home/berk/Projects/RivalTune)/Check { test: false }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
+   1.554428469s  INFO prepare_target{force=false package_id=rivaltune v1.7.3 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-2ca03a7950899955/bin-rivaltune`
 
 Caused by:
     No such file or directory (os error 2)
@@ -24,8 +25,8 @@ Stack backtrace:
   16: __libc_start_call_main
   17: __libc_start_main_alias_1
   18: <unknown>
-   0.309680126s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4 v0.9.7/Check { test: false }/TargetInner { ..: lib_target("gtk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-0.9.7/src/lib.rs", Edition2021) }
-   0.309707356s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-6a17c2a0eec7dfae/lib-gtk4`
+   1.558444055s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4 v0.9.7/Check { test: false }/TargetInner { ..: lib_target("gtk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-0.9.7/src/lib.rs", Edition2021) }
+   1.558536152s  INFO prepare_target{force=false package_id=gtk4 v0.9.7 target="gtk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-6a17c2a0eec7dfae/lib-gtk4`
 
 Caused by:
     No such file or directory (os error 2)
@@ -51,8 +52,8 @@ Stack backtrace:
   17: __libc_start_call_main
   18: __libc_start_main_alias_1
   19: <unknown>
-   0.318012367s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-0.9.6/src/lib.rs", Edition2021) }
-   0.318076373s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-eb92909016f5671b/lib-gdk4`
+   1.570045632s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-0.9.6/src/lib.rs", Edition2021) }
+   1.570147497s  INFO prepare_target{force=false package_id=gdk4 v0.9.6 target="gdk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-eb92909016f5671b/lib-gdk4`
 
 Caused by:
     No such file or directory (os error 2)
@@ -79,8 +80,8 @@ Stack backtrace:
   18: __libc_start_call_main
   19: __libc_start_main_alias_1
   20: <unknown>
-   0.318795318s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/src/lib.rs", Edition2021) }
-   0.318843576s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f6408e266676aa2e/lib-gdk4_sys`
+   1.570999568s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gdk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   1.571088812s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="gdk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f6408e266676aa2e/lib-gdk4_sys`
 
 Caused by:
     No such file or directory (os error 2)
@@ -108,8 +109,8 @@ Stack backtrace:
   19: __libc_start_call_main
   20: __libc_start_main_alias_1
   21: <unknown>
-   0.319629127s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/build.rs", Edition2021) }
-   0.319668330s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f9de43a4d2f522aa/run-build-script-build-script-build`
+   1.572107610s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gdk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gdk4-sys-0.9.6/build.rs", Edition2021) }
+   1.572201956s  INFO prepare_target{force=false package_id=gdk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gdk4-sys-f9de43a4d2f522aa/run-build-script-build-script-build`
 
 Caused by:
     No such file or directory (os error 2)
@@ -139,8 +140,8 @@ Stack backtrace:
   21: __libc_start_call_main
   22: __libc_start_main_alias_1
   23: <unknown>
-   0.320426670s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-rs v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-rs-0.20.10/src/lib.rs", Edition2021) }
-   0.320472704s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-rs-ff352042d6051bab/lib-graphene`
+   1.573107204s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-rs v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-rs-0.20.10/src/lib.rs", Edition2021) }
+   1.573166812s  INFO prepare_target{force=false package_id=graphene-rs v0.20.10 target="graphene"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-rs-ff352042d6051bab/lib-graphene`
 
 Caused by:
     No such file or directory (os error 2)
@@ -167,8 +168,8 @@ Stack backtrace:
   18: __libc_start_call_main
   19: __libc_start_main_alias_1
   20: <unknown>
-   0.321045134s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/src/lib.rs", Edition2021) }
-   0.321094560s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-1d7b3b42b8743a03/lib-graphene_sys`
+   1.576726281s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/Check { test: false }/TargetInner { ..: lib_target("graphene_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/src/lib.rs", Edition2021) }
+   1.576797757s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="graphene_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-1d7b3b42b8743a03/lib-graphene_sys`
 
 Caused by:
     No such file or directory (os error 2)
@@ -196,8 +197,8 @@ Stack backtrace:
   19: __libc_start_call_main
   20: __libc_start_main_alias_1
   21: <unknown>
-   0.321653745s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/build.rs", Edition2021) }
-   0.321694182s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-f086251f7dbdb5ef/run-build-script-build-script-build`
+   1.579527393s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for graphene-sys v0.20.10/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/build.rs", Edition2021) }
+   1.579603182s  INFO prepare_target{force=false package_id=graphene-sys v0.20.10 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/graphene-sys-f086251f7dbdb5ef/run-build-script-build-script-build`
 
 Caused by:
     No such file or directory (os error 2)
@@ -227,8 +228,8 @@ Stack backtrace:
   21: __libc_start_call_main
   22: __libc_start_main_alias_1
   23: <unknown>
-   0.322031711s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-0.9.6/src/lib.rs", Edition2021) }
-   0.322074076s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-53c409b4c9fcbfa1/lib-gsk4`
+   1.580006582s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4 v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-0.9.6/src/lib.rs", Edition2021) }
+   1.580296909s  INFO prepare_target{force=false package_id=gsk4 v0.9.6 target="gsk4"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-53c409b4c9fcbfa1/lib-gsk4`
 
 Caused by:
     No such file or directory (os error 2)
@@ -255,8 +256,8 @@ Stack backtrace:
   18: __libc_start_call_main
   19: __libc_start_main_alias_1
   20: <unknown>
-   0.322825059s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/src/lib.rs", Edition2021) }
-   0.322875321s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-4a346a362f6a1bdf/lib-gsk4_sys`
+   1.581277641s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gsk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   1.581355825s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="gsk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-4a346a362f6a1bdf/lib-gsk4_sys`
 
 Caused by:
     No such file or directory (os error 2)
@@ -284,8 +285,8 @@ Stack backtrace:
   19: __libc_start_call_main
   20: __libc_start_main_alias_1
   21: <unknown>
-   0.323671283s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/build.rs", Edition2021) }
-   0.323718841s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-1e2cff94861a8b9e/run-build-script-build-script-build`
+   1.582183157s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gsk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/build.rs", Edition2021) }
+   1.582234941s  INFO prepare_target{force=false package_id=gsk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gsk4-sys-1e2cff94861a8b9e/run-build-script-build-script-build`
 
 Caused by:
     No such file or directory (os error 2)
@@ -315,8 +316,8 @@ Stack backtrace:
   21: __libc_start_call_main
   22: __libc_start_main_alias_1
   23: <unknown>
-   0.324079432s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gtk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/src/lib.rs", Edition2021) }
-   0.324139134s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-3975ef4364eedc58/lib-gtk4_sys`
+   1.582777362s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/Check { test: false }/TargetInner { ..: lib_target("gtk4_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/src/lib.rs", Edition2021) }
+   1.584471462s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="gtk4_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-3975ef4364eedc58/lib-gtk4_sys`
 
 Caused by:
     No such file or directory (os error 2)
@@ -343,8 +344,8 @@ Stack backtrace:
   18: __libc_start_call_main
   19: __libc_start_main_alias_1
   20: <unknown>
-   0.326811873s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/build.rs", Edition2021) }
-   0.326911711s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-ce5b4d2ef2b7b059/run-build-script-build-script-build`
+   1.585653897s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for gtk4-sys v0.9.6/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/build.rs", Edition2021) }
+   1.585719598s  INFO prepare_target{force=false package_id=gtk4-sys v0.9.6 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/gtk4-sys-ce5b4d2ef2b7b059/run-build-script-build-script-build`
 
 Caused by:
     No such file or directory (os error 2)
@@ -373,8 +374,8 @@ Stack backtrace:
   20: __libc_start_call_main
   21: __libc_start_main_alias_1
   22: <unknown>
-   0.327305166s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-0.7.2/src/lib.rs", Edition2021) }
-   0.328149351s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-6532c4df29f1c085/lib-libadwaita`
+   1.586157366s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-0.7.2/src/lib.rs", Edition2021) }
+   1.586204043s  INFO prepare_target{force=false package_id=libadwaita v0.7.2 target="libadwaita"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-6532c4df29f1c085/lib-libadwaita`
 
 Caused by:
     No such file or directory (os error 2)
@@ -400,8 +401,8 @@ Stack backtrace:
   17: __libc_start_call_main
   18: __libc_start_main_alias_1
   19: <unknown>
-   0.329016043s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/src/lib.rs", Edition2021) }
-   0.329101007s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-3de628684b0cfdc7/lib-libadwaita_sys`
+   1.587164841s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/Check { test: false }/TargetInner { ..: lib_target("libadwaita_sys", ["lib"], "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/src/lib.rs", Edition2021) }
+   1.587225313s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="libadwaita_sys"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-3de628684b0cfdc7/lib-libadwaita_sys`
 
 Caused by:
     No such file or directory (os error 2)
@@ -428,8 +429,8 @@ Stack backtrace:
   18: __libc_start_call_main
   19: __libc_start_main_alias_1
   20: <unknown>
-   0.329994993s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/build.rs", Edition2021) }
-   0.330099534s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-664e5302d159c178/run-build-script-build-script-build`
+   1.588150049s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for libadwaita-sys v0.7.2/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libadwaita-sys-0.7.2/build.rs", Edition2021) }
+   1.588340191s  INFO prepare_target{force=false package_id=libadwaita-sys v0.7.2 target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/libadwaita-sys-664e5302d159c178/run-build-script-build-script-build`
 
 Caused by:
     No such file or directory (os error 2)
@@ -458,8 +459,8 @@ Stack backtrace:
   20: __libc_start_call_main
   21: __libc_start_main_alias_1
   22: <unknown>
-   0.331903640s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v0.1.0 (/home/berk/Projects/RivalTune)/Check { test: true }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
-   0.331960658s  INFO prepare_target{force=false package_id=rivaltune v0.1.0 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-64125b682edd250a/test-bin-rivaltune`
+   1.590148252s  INFO prepare_target{force=false package_id=rivaltune v1.7.3 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint: fingerprint error for rivaltune v1.7.3 (/home/berk/Projects/RivalTune)/Check { test: true }/TargetInner { name: "rivaltune", doc: true, ..: with_path("/home/berk/Projects/RivalTune/src/main.rs", Edition2021) }
+   1.590175338s  INFO prepare_target{force=false package_id=rivaltune v1.7.3 (/home/berk/Projects/RivalTune) target="rivaltune"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/berk/Projects/RivalTune/target/debug/.fingerprint/rivaltune-af1ec9e6117aaaf4/test-bin-rivaltune`
 
 Caused by:
     No such file or directory (os error 2)
@@ -484,18 +485,54 @@ Stack backtrace:
   16: __libc_start_call_main
   17: __libc_start_main_alias_1
   18: <unknown>
-   Compiling graphene-sys v0.20.10
    Compiling gdk4-sys v0.9.6
+   Compiling graphene-sys v0.20.10
    Compiling gsk4-sys v0.9.6
    Compiling gtk4-sys v0.9.6
-warning: gsk4-sys@0.9.6: 
-error: failed to run custom build command for `gsk4-sys v0.9.6`
+warning: graphene-sys@0.20.10: 
+error: failed to run custom build command for `graphene-sys v0.20.10`
 note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
 
 Caused by:
-  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gsk4-sys-fe79d072c93d4840/build-script-build` (exit status: 1)
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/graphene-sys-efd5d1a365f48952/build-script-build` (exit status: 1)
   --- stdout
-  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/Cargo.toml
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/Cargo.toml
+  cargo:rerun-if-env-changed=GRAPHENE_GOBJECT_1.0_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+  cargo:warning=
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags graphene-gobject-1.0 'graphene-gobject-1.0 >= 1.10'
+
+  The system library `graphene-gobject-1.0` required by crate `graphene-sys` was not found.
+  The file `graphene-gobject-1.0.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `graphene-gobject-1.0.pc`.
+
+warning: build failed, waiting for other jobs to finish...
+warning: gtk4-sys@0.9.6: 
+error: failed to run custom build command for `gtk4-sys v0.9.6`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gtk4-sys-1f93d973a4db1145/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/Cargo.toml
   cargo:rerun-if-env-changed=GTK4_NO_PKG_CONFIG
   cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
   cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
@@ -517,13 +554,12 @@ Caused by:
   pkg-config exited with status code 1
   > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags gtk4 'gtk4 >= 4.16'
 
-  The system library `gtk4` required by crate `gsk4-sys` was not found.
+  The system library `gtk4` required by crate `gtk4-sys` was not found.
   The file `gtk4.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
   The PKG_CONFIG_PATH environment variable is not set.
 
   HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `gtk4.pc`.
 
-warning: build failed, waiting for other jobs to finish...
 error: failed to run custom build command for `gdk4-sys v0.9.6`
 note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
 
@@ -560,49 +596,14 @@ Caused by:
 
   HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `gtk4.pc`.
 
-warning: graphene-sys@0.20.10: 
-error: failed to run custom build command for `graphene-sys v0.20.10`
+warning: gsk4-sys@0.9.6: 
+error: failed to run custom build command for `gsk4-sys v0.9.6`
 note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
 
 Caused by:
-  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/graphene-sys-efd5d1a365f48952/build-script-build` (exit status: 1)
+  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gsk4-sys-fe79d072c93d4840/build-script-build` (exit status: 1)
   --- stdout
-  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/graphene-sys-0.20.10/Cargo.toml
-  cargo:rerun-if-env-changed=GRAPHENE_GOBJECT_1.0_NO_PKG_CONFIG
-  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
-  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
-  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
-  cargo:rerun-if-env-changed=PKG_CONFIG
-  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
-  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
-  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
-  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
-  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
-  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
-  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
-  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
-  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
-  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
-  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
-  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
-  cargo:warning=
-  pkg-config exited with status code 1
-  > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags graphene-gobject-1.0 'graphene-gobject-1.0 >= 1.10'
-
-  The system library `graphene-gobject-1.0` required by crate `graphene-sys` was not found.
-  The file `graphene-gobject-1.0.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
-  The PKG_CONFIG_PATH environment variable is not set.
-
-  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `graphene-gobject-1.0.pc`.
-
-warning: gtk4-sys@0.9.6: 
-error: failed to run custom build command for `gtk4-sys v0.9.6`
-note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
-
-Caused by:
-  process didn't exit successfully: `/home/berk/Projects/RivalTune/target/debug/build/gtk4-sys-1f93d973a4db1145/build-script-build` (exit status: 1)
-  --- stdout
-  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gtk4-sys-0.9.6/Cargo.toml
+  cargo:rerun-if-changed=/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gsk4-sys-0.9.6/Cargo.toml
   cargo:rerun-if-env-changed=GTK4_NO_PKG_CONFIG
   cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
   cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
@@ -624,7 +625,7 @@ Caused by:
   pkg-config exited with status code 1
   > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags gtk4 'gtk4 >= 4.16'
 
-  The system library `gtk4` required by crate `gtk4-sys` was not found.
+  The system library `gtk4` required by crate `gsk4-sys` was not found.
   The file `gtk4.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
   The PKG_CONFIG_PATH environment variable is not set.
 

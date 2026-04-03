@@ -32,6 +32,10 @@ pub struct DeviceState {
     pub colors: HashMap<String, String>,
     pub polling_rate: u32,
     pub rgb_enabled: bool,
+    #[serde(default)]
+    pub light_effect: Option<String>,
+    #[serde(default)]
+    pub rainbow_effect: Option<String>,
 }
 
 impl Default for DeviceState {
@@ -42,6 +46,8 @@ impl Default for DeviceState {
             colors: HashMap::new(),
             polling_rate: 1000,
             rgb_enabled: true,
+            light_effect: None,
+            rainbow_effect: None,
         }
     }
 }
@@ -55,6 +61,10 @@ pub struct UserPreset {
     pub colors: HashMap<String, String>,
     pub polling_rate: u32,
     pub rgb_enabled: bool,
+    #[serde(default)]
+    pub light_effect: Option<String>,
+    #[serde(default)]
+    pub rainbow_effect: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

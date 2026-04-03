@@ -127,16 +127,18 @@ impl RivaltuneApplication {
         let about = adw::AboutDialog::builder()
             .application_name("RivalTune")
             .application_icon("com.polydez.rivaltune")
-            .developer_name("berk")
+            .developer_name("Polydez")
             .version(VERSION)
-            .developers(vec!["berk"])
-            .comments("Configure your SteelSeries mouse on Linux using rivalcfg")
+            .developers(vec!["Polydez"])
+            .comments(
+                "A GTK app for configuring supported SteelSeries mice on Linux using the open-source rivalcfg tool.",
+            )
             .website("https://github.com/polydezcom/RivalTune")
             .issue_url("https://github.com/polydezcom/RivalTune/issues")
             .license_type(gtk::License::Gpl30)
             // Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
             .translator_credits(&gettext("translator-credits"))
-            .copyright("© 2026 berk")
+            .copyright("© 2026 Polydez")
             .build();
 
         about.present(Some(&window));

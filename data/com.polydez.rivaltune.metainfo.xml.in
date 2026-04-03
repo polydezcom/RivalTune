@@ -5,13 +5,15 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>RivalTune</name>
-  <summary>Keep the summary shorter, between 10 and 35 characters</summary>
+  <summary>Configure SteelSeries mice on Linux</summary>
   <description>
-    <p>No description</p>
+    <p>RivalTune is a GTK desktop app for configuring supported SteelSeries mice on Linux.</p>
+    <p>It provides per-device profiles with sensitivity preset management, manual DPI input, polling rate selection, RGB zone controls, and reusable user presets.</p>
+    <p>This project is not affiliated with or endorsed by SteelSeries. RivalTune is a community hobby project built on top of the open-source rivalcfg tool.</p>
   </description>
 
   <developer id="tld.vendor">
-    <name>Developer name</name>
+    <name>Polydez</name>
   </developer>
 
   <!-- Required: Should be a link to the upstream homepage for the component -->
@@ -58,8 +60,8 @@
   </screenshots>
 
   <releases>
-    <release version="1.0.1" date="2024-01-18">
-      <url type="details">https://example.org/changelog.html#version_1.0.1</url>
+    <release version="1.7.3" date="2026-04-03">
+      <url type="details">https://github.com/polydezcom/RivalTune/releases/tag/v1.7.3</url>
       <description translate="no">
         <p>Release description</p>
         <ul>

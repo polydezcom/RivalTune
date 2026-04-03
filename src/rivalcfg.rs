@@ -20,6 +20,12 @@
 
 use std::process::Command;
 
+#[derive(Debug, Clone, Default)]
+pub struct EffectSupport {
+    pub light_effect_values: Vec<String>,
+    pub rainbow_effect_values: Vec<String>,
+}
+
 /// Check whether rivalcfg is installed and reachable.
 pub fn is_installed() -> bool {
     Command::new("rivalcfg")
@@ -145,6 +151,31 @@ pub fn set_polling_rate(rate: u32) -> Result<(), String> {
     run_rivalcfg(&["--polling-rate", &rate.to_string()])
 }
 
+pub fn set_light_effect(effect: &str) -> Result<(), String> {
+    run_rivalcfg(&["--light-effect", effect])
+}
+
+pub fn set_rainbow_effect(effect: Option<&str>) -> Result<(), String> {
+    match effect {
+        Some(value) => run_rivalcfg(&["--rainbow-effect", value]),
+        None => run_rivalcfg(&["--rainbow-effect"]),
+    }
+}
+
+pub fn effect_support() -> EffectSupport {
+    let output = match Command::new("rivalcfg").arg("-h").output() {
+        Ok(output) => output,
+        Err(_) => return EffectSupport::default(),
+    };
+
+    let help_text = String::from_utf8_lossy(&output.stdout);
+
+    EffectSupport {
+        light_effect_values: extract_values_for_option(&help_text, "--light-effect"),
+        rainbow_effect_values: extract_values_for_option(&help_text, "--rainbow-effect"),
+    }
+}
+
 /// Reset to factory defaults.
 pub fn reset() -> Result<(), String> {
     run_rivalcfg(&["--reset"])
@@ -163,4 +194,40 @@ fn run_rivalcfg(args: &[&str]) -> Result<(), String> {
         let stdout = String::from_utf8_lossy(&output.stdout);
         Err(format!("{}{}", stderr, stdout))
     }
+}
+
+fn extract_values_for_option(help_text: &str, option_name: &str) -> Vec<String> {
+    let Some(start) = help_text.find(option_name) else {
+        return Vec::new();
+    };
+
+    let end = (start + 700).min(help_text.len());
+    let window = &help_text[start..end];
+    let Some(values_pos) = window.find("values:") else {
+        return Vec::new();
+    };
+
+    let mut values_chunk = &window[values_pos + "values:".len()..];
+    if let Some(default_pos) = values_chunk.find("default:") {
+        values_chunk = &values_chunk[..default_pos];
+    }
+    if let Some(paren_pos) = values_chunk.find(')') {
+        values_chunk = &values_chunk[..paren_pos];
+    }
+
+    values_chunk
+        .split(',')
+        .map(|value| {
+            value
+                .lines()
+                .map(str::trim)
+                .collect::<Vec<_>>()
+                .join(" ")
+                .replace("- ", "-")
+                .trim()
+                .trim_end_matches('.')
+                .to_string()
+        })
+        .filter(|value| !value.is_empty())
+        .collect()
 }

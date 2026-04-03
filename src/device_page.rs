@@ -55,6 +55,8 @@ mod imp {
         pub preset_dropdown: RefCell<Option<gtk::DropDown>>,
         pub preset_model: RefCell<Option<gtk::StringList>>,
         pub theme_dropdown: RefCell<Option<gtk::DropDown>>,
+        pub light_effect_dropdown: RefCell<Option<gtk::DropDown>>,
+        pub rainbow_effect_dropdown: RefCell<Option<gtk::DropDown>>,
         pub user_presets: RefCell<Vec<UserPreset>>,
         pub profile_name: RefCell<String>,
     }
@@ -473,6 +475,56 @@ impl DevicePage {
         theme_row.add_suffix(&theme_dropdown);
         group.add(&theme_row);
 
+        let effect_support = crate::rivalcfg::effect_support();
+
+        let light_effect_dropdown = if profile.has_light_effect && !effect_support.light_effect_values.is_empty() {
+            let row = adw::ActionRow::builder()
+                .title("Light Effect")
+                .subtitle("Choose an onboard effect supported by this device")
+                .build();
+
+            let mut items = vec!["Off".to_string()];
+            items.extend(effect_support.light_effect_values.iter().cloned());
+            let model = gtk::StringList::new(&items.iter().map(|s| s.as_str()).collect::<Vec<_>>());
+            let dropdown = gtk::DropDown::builder()
+                .model(&model)
+                .selected(0)
+                .valign(gtk::Align::Center)
+                .build();
+
+            row.add_suffix(&dropdown);
+            group.add(&row);
+            Some(dropdown)
+        } else {
+            None
+        };
+
+        let rainbow_effect_dropdown = if profile.has_rainbow_effect {
+            let row = adw::ActionRow::builder()
+                .title("Rainbow Effect")
+                .subtitle("Enable a rainbow mode when available")
+                .build();
+
+            let mut items = vec!["Off".to_string()];
+            if effect_support.rainbow_effect_values.is_empty() {
+                items.push("On".to_string());
+            } else {
+                items.extend(effect_support.rainbow_effect_values.iter().cloned());
+            }
+            let model = gtk::StringList::new(&items.iter().map(|s| s.as_str()).collect::<Vec<_>>());
+            let dropdown = gtk::DropDown::builder()
+                .model(&model)
+                .selected(0)
+                .valign(gtk::Align::Center)
+                .build();
+
+            row.add_suffix(&dropdown);
+            group.add(&row);
+            Some(dropdown)
+        } else {
+            None
+        };
+
         let page_for_switch = self.clone();
         let profile_for_switch = profile;
         rgb_switch.connect_active_notify(move |_| {
@@ -482,6 +534,8 @@ impl DevicePage {
 
         imp.rgb_switch.replace(Some(rgb_switch));
         imp.theme_dropdown.replace(Some(theme_dropdown));
+        imp.light_effect_dropdown.replace(light_effect_dropdown);
+        imp.rainbow_effect_dropdown.replace(rainbow_effect_dropdown);
         imp.color_buttons.replace(buttons);
         parent.append(&group);
     }
@@ -576,6 +630,26 @@ impl DevicePage {
             errors.push(format!("Polling rate: {}", e));
         }
 
+        if state.rgb_enabled {
+            if let Some(effect) = state.light_effect.as_deref() {
+                if let Err(e) = crate::rivalcfg::set_light_effect(effect) {
+                    errors.push(format!("Light effect: {}", e));
+                }
+            }
+
+            if let Some(rainbow) = state.rainbow_effect.as_deref() {
+                let result = if rainbow.eq_ignore_ascii_case("on") {
+                    crate::rivalcfg::set_rainbow_effect(None)
+                } else {
+                    crate::rivalcfg::set_rainbow_effect(Some(rainbow))
+                };
+
+                if let Err(e) = result {
+                    errors.push(format!("Rainbow effect: {}", e));
+                }
+            }
+        }
+
         if !errors.is_empty() {
             eprintln!("Errors applying settings:\n{}", errors.join("\n"));
         } else if let Err(e) = crate::state::save_device_state(profile.name, self.collect_current_state(profile)) {
@@ -629,12 +703,46 @@ impl DevicePage {
             .map(|s| s.is_active())
             .unwrap_or(true);
 
+        let light_effect = imp
+            .light_effect_dropdown
+            .borrow()
+            .as_ref()
+            .and_then(|dd| {
+                let idx = dd.selected() as usize;
+                string_from_dropdown(dd, idx)
+            })
+            .and_then(|value| {
+                if value.eq_ignore_ascii_case("off") {
+                    None
+                } else {
+                    Some(value)
+                }
+            });
+
+        let rainbow_effect = imp
+            .rainbow_effect_dropdown
+            .borrow()
+            .as_ref()
+            .and_then(|dd| {
+                let idx = dd.selected() as usize;
+                string_from_dropdown(dd, idx)
+            })
+            .and_then(|value| {
+                if value.eq_ignore_ascii_case("off") {
+                    None
+                } else {
+                    Some(value)
+                }
+            });
+
         DeviceState {
             sensitivities,
             sensitivity_enabled,
             colors,
             polling_rate,
             rgb_enabled,
+            light_effect,
+            rainbow_effect,
         }
     }
 
@@ -693,6 +801,22 @@ impl DevicePage {
             rgb_switch.set_active(state.rgb_enabled);
         }
 
+        if let Some(light_dropdown) = imp.light_effect_dropdown.borrow().as_ref() {
+            if let Some(effect) = state.light_effect.as_deref() {
+                select_dropdown_value(light_dropdown, effect);
+            } else {
+                light_dropdown.set_selected(0);
+            }
+        }
+
+        if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
+            if let Some(effect) = state.rainbow_effect.as_deref() {
+                select_dropdown_value(rainbow_dropdown, effect);
+            } else {
+                rainbow_dropdown.set_selected(0);
+            }
+        }
+
         self.update_rgb_widgets_enabled();
         self.connect_change_watchers(profile);
     }
@@ -732,6 +856,22 @@ impl DevicePage {
                 page.save_current_state(profile_for_save);
             });
         }
+
+        if let Some(light_dropdown) = imp.light_effect_dropdown.borrow().as_ref() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            light_dropdown.connect_selected_notify(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
+
+        if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            rainbow_dropdown.connect_selected_notify(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
     }
 
     fn update_rgb_widgets_enabled(&self) {
@@ -749,6 +889,14 @@ impl DevicePage {
 
         if let Some(theme_dropdown) = imp.theme_dropdown.borrow().as_ref() {
             theme_dropdown.set_sensitive(enabled);
+        }
+
+        if let Some(light_dropdown) = imp.light_effect_dropdown.borrow().as_ref() {
+            light_dropdown.set_sensitive(enabled);
+        }
+
+        if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
+            rainbow_dropdown.set_sensitive(enabled);
         }
     }
 
@@ -796,6 +944,8 @@ impl DevicePage {
             colors: state.colors,
             polling_rate: state.polling_rate,
             rgb_enabled: state.rgb_enabled,
+            light_effect: state.light_effect,
+            rainbow_effect: state.rainbow_effect,
         };
 
         if let Err(e) = crate::state::save_preset(profile.name, preset) {
@@ -865,6 +1015,22 @@ impl DevicePage {
             rgb_switch.set_active(preset.rgb_enabled);
         }
 
+        if let Some(light_dropdown) = imp.light_effect_dropdown.borrow().as_ref() {
+            if let Some(effect) = preset.light_effect.as_deref() {
+                select_dropdown_value(light_dropdown, effect);
+            } else {
+                light_dropdown.set_selected(0);
+            }
+        }
+
+        if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
+            if let Some(effect) = preset.rainbow_effect.as_deref() {
+                select_dropdown_value(rainbow_dropdown, effect);
+            } else {
+                rainbow_dropdown.set_selected(0);
+            }
+        }
+
         self.update_rgb_widgets_enabled();
         self.save_current_state(profile);
     }
@@ -916,4 +1082,32 @@ fn hex_to_rgba(hex: &str) -> Option<gtk::gdk::RGBA> {
         b as f32 / 255.0,
         1.0,
     ))
+}
+
+fn string_from_dropdown(dropdown: &gtk::DropDown, idx: usize) -> Option<String> {
+    let model = dropdown.model()?;
+    let string_list = model.downcast::<gtk::StringList>().ok()?;
+    string_list.string(idx as u32).map(|s| s.to_string())
+}
+
+fn select_dropdown_value(dropdown: &gtk::DropDown, expected: &str) {
+    let Some(model) = dropdown.model() else {
+        return;
+    };
+    let Ok(string_list) = model.downcast::<gtk::StringList>() else {
+        return;
+    };
+
+    let needle = expected.trim().to_ascii_lowercase();
+    let count = string_list.n_items();
+    for idx in 0..count {
+        if let Some(item) = string_list.string(idx) {
+            if item.trim().to_ascii_lowercase() == needle {
+                dropdown.set_selected(idx);
+                return;
+            }
+        }
+    }
+
+    dropdown.set_selected(0);
 }
