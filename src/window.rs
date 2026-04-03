@@ -38,6 +38,8 @@ mod imp {
         #[template_child]
         pub refresh_button: TemplateChild<gtk::Button>,
         #[template_child]
+        pub header_tabs_box: TemplateChild<gtk::Box>,
+        #[template_child]
         pub device_controls_box: TemplateChild<gtk::Box>,
     }
 
@@ -149,9 +151,14 @@ impl RivaltuneWindow {
         let imp = self.imp();
         let stack = &imp.main_stack;
         let controls_box = imp.device_controls_box.get();
+        let tabs_box = imp.header_tabs_box.get();
 
         while let Some(child) = controls_box.first_child() {
             controls_box.remove(&child);
+        }
+
+        while let Some(child) = tabs_box.first_child() {
+            tabs_box.remove(&child);
         }
 
         if let Some(profile) = crate::devices::detect_device() {
@@ -163,11 +170,16 @@ impl RivaltuneWindow {
             let device_page = DevicePage::new();
             device_page.load_device(profile);
             let controls = device_page.build_header_controls(profile);
+            if let Some(tab_switcher) = device_page.build_header_tab_switcher() {
+                tabs_box.append(&tab_switcher);
+                tabs_box.set_visible(true);
+            }
             controls_box.append(&controls);
             controls_box.set_visible(true);
             stack.add_named(&device_page, Some("device"));
             stack.set_visible_child_name("device");
         } else {
+            tabs_box.set_visible(false);
             controls_box.set_visible(false);
             stack.set_visible_child_name("no-device");
         }

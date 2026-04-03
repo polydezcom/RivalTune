@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/polydez/rivaltune">
+    <file>style.css</file>
     <file preprocess="xml-stripblanks">window.ui</file>
     <file preprocess="xml-stripblanks">onboarding.ui</file>
     <file preprocess="xml-stripblanks">shortcuts-dialog.ui</file>

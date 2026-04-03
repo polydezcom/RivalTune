@@ -32,8 +32,8 @@ use self::window::RivaltuneWindow;
 
 use config::{GETTEXT_PACKAGE, LOCALEDIR, PKGDATADIR};
 use gettextrs::{bind_textdomain_codeset, bindtextdomain, textdomain};
-use gtk::{gio, glib};
 use gtk::prelude::*;
+use gtk::{gio, glib};
 
 fn main() -> glib::ExitCode {
     // Set up gettext translations

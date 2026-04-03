@@ -22,6 +22,7 @@ use gettextrs::gettext;
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gtk::{gio, glib};
+use std::cell::Cell;
 
 use crate::config::VERSION;
 use crate::RivaltuneWindow;
@@ -30,7 +31,9 @@ mod imp {
     use super::*;
 
     #[derive(Debug, Default)]
-    pub struct RivaltuneApplication {}
+    pub struct RivaltuneApplication {
+        pub css_loaded: Cell<bool>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for RivaltuneApplication {
@@ -55,6 +58,12 @@ mod imp {
         // to do that, we'll just present any existing window.
         fn activate(&self) {
             let application = self.obj();
+
+            if !self.css_loaded.get() {
+                application.setup_css();
+                self.css_loaded.set(true);
+            }
+
             // Get the current window or create one if necessary
             let window = application.active_window().unwrap_or_else(|| {
                 let window = RivaltuneWindow::new(&*application);
@@ -96,6 +105,19 @@ impl RivaltuneApplication {
             .activate(move |app: &Self, _, _| app.show_shortcuts())
             .build();
         self.add_action_entries([quit_action, about_action, shortcuts_action]);
+    }
+
+    fn setup_css(&self) {
+        let provider = gtk::CssProvider::new();
+        provider.load_from_resource("/com/polydez/rivaltune/style.css");
+
+        if let Some(display) = gtk::gdk::Display::default() {
+            gtk::style_context_add_provider_for_display(
+                &display,
+                &provider,
+                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
+            );
+        }
     }
 
     fn show_about(&self) {

@@ -44,6 +44,7 @@ mod imp {
     #[derive(Debug, Default)]
     pub struct DevicePage {
         pub content_box: RefCell<Option<gtk::Box>>,
+        pub section_stack: RefCell<Option<gtk::Stack>>,
         pub sensitivity_scales: RefCell<Vec<gtk::Scale>>,
         pub color_buttons: RefCell<Vec<(String, gtk::ColorDialogButton)>>,
         pub polling_rate_dropdown: RefCell<Option<gtk::DropDown>>,
@@ -113,11 +114,6 @@ impl DevicePage {
             .transition_duration(200)
             .build();
 
-        let tab_switcher = gtk::StackSwitcher::builder()
-            .stack(&section_stack)
-            .halign(gtk::Align::Center)
-            .build();
-
         let sensitivity_tab = gtk::Box::builder()
             .orientation(gtk::Orientation::Vertical)
             .spacing(16)
@@ -134,8 +130,6 @@ impl DevicePage {
 
         section_stack.add_titled(&sensitivity_tab, Some("sensitivity"), "Sensitivity");
         section_stack.add_titled(&rgb_tab, Some("rgb-effects"), "RGB & Effects");
-
-        main_box.append(&tab_switcher);
         main_box.append(&section_stack);
 
         clamp.set_child(Some(&main_box));
@@ -143,8 +137,23 @@ impl DevicePage {
         self.set_child(Some(&scroll));
 
         imp.content_box.replace(Some(main_box));
+        imp.section_stack.replace(Some(section_stack));
         self.restore_state(profile);
         self.refresh_preset_dropdown(profile);
+    }
+
+    pub fn build_header_tab_switcher(&self) -> Option<gtk::StackSwitcher> {
+        let imp = self.imp();
+        let stack = imp.section_stack.borrow();
+        let stack_ref = stack.as_ref()?;
+
+        Some(
+            gtk::StackSwitcher::builder()
+                .stack(stack_ref)
+                .halign(gtk::Align::Center)
+                .css_classes(vec!["flat".to_string(), "compact-tabs".to_string()])
+                .build(),
+        )
     }
 
     pub fn build_header_controls(&self, profile: &'static DeviceProfile) -> gtk::Box {
@@ -188,6 +197,7 @@ impl DevicePage {
             .margin_start(8)
             .margin_end(8)
             .build();
+        popover_content.append(&preset_dropdown);
         popover_content.append(&preset_name_entry);
         popover_content.append(&save_button);
         popover_content.append(&apply_preset_button);
@@ -202,7 +212,7 @@ impl DevicePage {
 
         let apply_button = gtk::Button::builder()
             .label("Apply")
-            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
+            .css_classes(vec!["suggested-action".to_string()])
             .valign(gtk::Align::Center)
             .build();
 
@@ -230,7 +240,6 @@ impl DevicePage {
             page_for_apply_settings.apply_settings(profile_for_apply_settings, btn);
         });
 
-        controls.append(&preset_dropdown);
         controls.append(&presets_button);
         controls.append(&apply_button);
 

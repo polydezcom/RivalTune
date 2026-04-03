@@ -16,19 +16,31 @@
                 <property name="tooltip-text" translatable="yes">Refresh Device</property>
               </object>
             </child>
-            <child type="end">
-              <object class="GtkBox" id="device_controls_box">
-                <property name="spacing">6</property>
+            <child type="title">
+              <object class="GtkBox" id="header_tabs_box">
                 <property name="visible">False</property>
-                <property name="valign">center</property>
+                <property name="halign">center</property>
               </object>
             </child>
             <child type="end">
-              <object class="GtkMenuButton">
+              <object class="GtkBox" id="header_end_box">
+                <property name="spacing">6</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkBox" id="device_controls_box">
+                    <property name="spacing">6</property>
+                    <property name="visible">False</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkMenuButton" id="main_menu_button">
                 <property name="primary">True</property>
                 <property name="icon-name">open-menu-symbolic</property>
                 <property name="tooltip-text" translatable="yes">Main Menu</property>
                 <property name="menu-model">primary_menu</property>
+              </object>
+                </child>
               </object>
             </child>
           </object>
