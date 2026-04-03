@@ -48,6 +48,8 @@ mod imp {
             let obj = self.obj();
             obj.setup_gactions();
             obj.set_accels_for_action("app.quit", &["<control>q"]);
+            obj.set_accels_for_action("win.tab1", &["<alt>1"]);
+            obj.set_accels_for_action("win.tab2", &["<alt>2"]);
         }
     }
 
@@ -143,7 +145,10 @@ impl RivaltuneApplication {
     fn show_shortcuts(&self) {
         let window = self.active_window().unwrap();
         let builder = gtk::Builder::from_resource("/com/polydez/rivaltune/shortcuts-dialog.ui");
-        let dialog = builder.object::<adw::Dialog>("shortcuts_dialog").unwrap();
-        dialog.present(Some(&window));
+        let dialog = builder
+            .object::<gtk::ShortcutsWindow>("shortcuts_dialog")
+            .unwrap();
+        dialog.set_transient_for(Some(&window));
+        dialog.present();
     }
 }

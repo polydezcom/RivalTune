@@ -9,3 +9,7 @@
   padding-left: 6px;
   padding-right: 6px;
 }
+
+.compact-tabs button + button {
+  margin-left: 2px;
+}

@@ -157,6 +157,22 @@ impl DevicePage {
         )
     }
 
+    pub fn select_tab(&self, index: u32) {
+        let imp = self.imp();
+        let stack = imp.section_stack.borrow();
+        let Some(stack_ref) = stack.as_ref() else {
+            return;
+        };
+
+        let tab_name = match index {
+            0 => "sensitivity",
+            1 => "rgb-effects",
+            _ => return,
+        };
+
+        stack_ref.set_visible_child_name(tab_name);
+    }
+
     pub fn build_header_controls(&self, profile: &'static DeviceProfile) -> gtk::Box {
         let imp = self.imp();
 
@@ -212,9 +228,7 @@ impl DevicePage {
 
         let popover = gtk::Popover::builder().child(&popover_content).build();
 
-        let presets_icon = gtk::Image::from_resource(
-            "/org/gtk/example/icons/scalable/actions/brush-symbolic.svg",
-        );
+        let presets_icon = gtk::Image::from_icon_name("folder-download-symbolic");
         presets_icon.set_pixel_size(16);
 
         let presets_button = gtk::MenuButton::builder()
@@ -445,7 +459,7 @@ impl DevicePage {
 
         let theme_row = adw::ActionRow::builder()
             .title("Built-in Light Theme")
-            .subtitle("Quickly apply one of the included color themes")
+            .subtitle("Selecting a theme updates the color pickers")
             .build();
 
         let theme_items: Vec<&str> = LIGHT_THEMES.iter().map(|(name, _)| *name).collect();
@@ -456,20 +470,7 @@ impl DevicePage {
             .valign(gtk::Align::Center)
             .build();
 
-        let theme_apply = gtk::Button::builder()
-            .label("Apply Theme")
-            .css_classes(vec!["suggested-action".to_string()])
-            .valign(gtk::Align::Center)
-            .build();
-
-        let theme_box = gtk::Box::builder()
-            .orientation(gtk::Orientation::Horizontal)
-            .spacing(8)
-            .build();
-        theme_box.append(&theme_dropdown);
-        theme_box.append(&theme_apply);
-
-        theme_row.add_suffix(&theme_box);
+        theme_row.add_suffix(&theme_dropdown);
         group.add(&theme_row);
 
         let page_for_switch = self.clone();
@@ -477,13 +478,6 @@ impl DevicePage {
         rgb_switch.connect_active_notify(move |_| {
             page_for_switch.update_rgb_widgets_enabled();
             page_for_switch.save_current_state(profile_for_switch);
-        });
-
-        let page_for_theme = self.clone();
-        let profile_for_theme = profile;
-        theme_apply.connect_clicked(move |_| {
-            page_for_theme.apply_selected_theme();
-            page_for_theme.save_current_state(profile_for_theme);
         });
 
         imp.rgb_switch.replace(Some(rgb_switch));
@@ -718,6 +712,15 @@ impl DevicePage {
             let page = self.clone();
             let profile_for_save = profile;
             enabled_switch.connect_active_notify(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
+
+        if let Some(theme_dropdown) = imp.theme_dropdown.borrow().as_ref() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            theme_dropdown.connect_selected_notify(move |_| {
+                page.apply_selected_theme();
                 page.save_current_state(profile_for_save);
             });
         }

@@ -64,6 +64,7 @@ mod imp {
             let obj = self.obj();
             obj.setup_pages();
             obj.setup_refresh();
+            obj.setup_actions();
         }
     }
 
@@ -145,6 +146,36 @@ impl RivaltuneWindow {
         self.imp().refresh_button.connect_clicked(move |_| {
             win.try_detect_device();
         });
+    }
+
+    fn setup_actions(&self) {
+        let tab1_action = gio::ActionEntry::builder("tab1")
+            .activate(move |win: &Self, _, _| {
+                win.select_tab(0);
+            })
+            .build();
+
+        let tab2_action = gio::ActionEntry::builder("tab2")
+            .activate(move |win: &Self, _, _| {
+                win.select_tab(1);
+            })
+            .build();
+
+        self.add_action_entries([tab1_action, tab2_action]);
+    }
+
+    fn select_tab(&self, index: u32) {
+        let imp = self.imp();
+        let stack = &imp.main_stack;
+        let Some(child) = stack.child_by_name("device") else {
+            return;
+        };
+
+        let Ok(device_page) = child.downcast::<DevicePage>() else {
+            return;
+        };
+
+        device_page.select_tab(index);
     }
 
     fn try_detect_device(&self) {
