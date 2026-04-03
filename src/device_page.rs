@@ -46,6 +46,7 @@ mod imp {
     pub struct DevicePage {
         pub content_box: RefCell<Option<gtk::Box>>,
         pub section_stack: RefCell<Option<gtk::Stack>>,
+        pub runtime_caps: RefCell<Option<crate::rivalcfg::RuntimeCapabilities>>,
         pub sensitivity_scales: RefCell<Vec<gtk::Scale>>,
         pub sensitivity_enabled: RefCell<Vec<gtk::Switch>>,
         pub color_buttons: RefCell<Vec<(String, gtk::ColorDialogButton)>>,
@@ -86,6 +87,8 @@ impl DevicePage {
     pub fn load_device(&self, profile: &'static DeviceProfile) {
         let imp = self.imp();
         imp.profile_name.replace(profile.name.to_string());
+        imp.runtime_caps
+            .replace(Some(crate::rivalcfg::runtime_capabilities()));
 
         let scroll = gtk::ScrolledWindow::builder()
             .hscrollbar_policy(gtk::PolicyType::Never)
@@ -173,6 +176,103 @@ impl DevicePage {
         };
 
         stack_ref.set_visible_child_name(tab_name);
+    }
+
+    fn resolved_sensitivity_count(&self, profile: &'static DeviceProfile) -> usize {
+        let runtime = self
+            .imp()
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .and_then(|caps| caps.sensitivity_presets)
+            .map(|v| v as usize)
+            .unwrap_or(profile.max_sensitivity_presets as usize);
+        runtime.clamp(1, 8)
+    }
+
+    fn resolved_sensitivity_range(&self, profile: &'static DeviceProfile) -> (u32, u32) {
+        let imp = self.imp();
+        let min = imp
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .and_then(|caps| caps.sensitivity_min)
+            .unwrap_or(profile.sensitivity_min);
+        let max = imp
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .and_then(|caps| caps.sensitivity_max)
+            .unwrap_or(profile.sensitivity_max);
+
+        if min <= max {
+            (min, max)
+        } else {
+            (profile.sensitivity_min, profile.sensitivity_max)
+        }
+    }
+
+    fn resolved_polling_rates(&self, profile: &'static DeviceProfile) -> Vec<u32> {
+        let imp = self.imp();
+        let mut rates = imp
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .map(|caps| caps.polling_rates.clone())
+            .unwrap_or_default();
+
+        if rates.is_empty() {
+            rates = profile.polling_rates.to_vec();
+        }
+
+        rates.sort_unstable();
+        rates.dedup();
+        rates
+    }
+
+    fn resolved_color_zones(&self, profile: &'static DeviceProfile) -> Vec<(String, String)> {
+        let imp = self.imp();
+        let runtime_zones = imp
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .map(|caps| caps.color_zones.clone())
+            .unwrap_or_default();
+
+        if !runtime_zones.is_empty() {
+            return runtime_zones
+                .into_iter()
+                .map(|(flag, fallback_label)| {
+                    let label = profile
+                        .color_zones
+                        .iter()
+                        .find(|zone| zone.cli_flag == flag)
+                        .map(|zone| zone.label.to_string())
+                        .unwrap_or(fallback_label);
+                    (flag, label)
+                })
+                .collect();
+        }
+
+        profile
+            .color_zones
+            .iter()
+            .map(|zone| (zone.cli_flag.to_string(), zone.label.to_string()))
+            .collect()
+    }
+
+    fn resolved_effect_support(&self, profile: &'static DeviceProfile) -> crate::rivalcfg::EffectSupport {
+        let imp = self.imp();
+        let mut support = imp
+            .runtime_caps
+            .borrow()
+            .as_ref()
+            .map(|caps| caps.effects.clone())
+            .unwrap_or_default();
+
+        support.has_light_effect = support.has_light_effect || profile.has_light_effect;
+        support.has_rainbow_effect = support.has_rainbow_effect || profile.has_rainbow_effect;
+        support
     }
 
     pub fn build_header_controls(&self, profile: &'static DeviceProfile) -> gtk::Box {
@@ -299,34 +399,36 @@ impl DevicePage {
 
     fn build_sensitivity_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
         let imp = self.imp();
+        let preset_count = self.resolved_sensitivity_count(profile);
+        let (sensitivity_min, sensitivity_max) = self.resolved_sensitivity_range(profile);
 
         let group = adw::PreferencesGroup::builder()
             .title("Sensitivity (DPI)")
             .description(format!(
                 "Up to {} presets, {} – {} DPI",
-                profile.max_sensitivity_presets,
-                profile.sensitivity_min,
-                profile.sensitivity_max
+                preset_count,
+                sensitivity_min,
+                sensitivity_max
             ))
             .build();
 
         let mut scales = Vec::new();
         let mut enabled_switches = Vec::new();
 
-        for i in 0..profile.max_sensitivity_presets {
+        for i in 0..preset_count {
             let default_dpi = match i {
                 0 => 800.0,
                 1 => 1600.0,
                 _ => 800.0 + (i as f64 * 400.0),
             };
-            let default_dpi = default_dpi.min(profile.sensitivity_max as f64);
+            let default_dpi = default_dpi.clamp(sensitivity_min as f64, sensitivity_max as f64);
 
             let row = adw::ActionRow::builder()
                 .title(format!("Preset {}", i + 1))
                 .build();
 
             let enabled_switch = gtk::Switch::builder()
-                .active(i < 2)
+                .active(i < 2usize)
                 .valign(gtk::Align::Center)
                 .build();
             row.add_prefix(&enabled_switch);
@@ -339,8 +441,8 @@ impl DevicePage {
 
             let adj = gtk::Adjustment::new(
                 default_dpi,
-                profile.sensitivity_min as f64,
-                profile.sensitivity_max as f64,
+                sensitivity_min as f64,
+                sensitivity_max as f64,
                 profile.sensitivity_step as f64,
                 profile.sensitivity_step as f64 * 5.0,
                 0.0,
@@ -413,8 +515,9 @@ impl DevicePage {
 
     fn build_color_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
         let imp = self.imp();
+        let color_zones = self.resolved_color_zones(profile);
 
-        if profile.color_zones.is_empty() {
+        if color_zones.is_empty() {
             return;
         }
 
@@ -437,9 +540,9 @@ impl DevicePage {
 
         let mut buttons = Vec::new();
 
-        for zone in profile.color_zones {
+        for (zone_flag, zone_label) in color_zones {
             let row = adw::ActionRow::builder()
-                .title(zone.label)
+                .title(zone_label)
                 .build();
 
             let dialog = gtk::ColorDialog::builder()
@@ -456,7 +559,7 @@ impl DevicePage {
 
             row.add_suffix(&color_button);
             group.add(&row);
-            buttons.push((zone.cli_flag.to_string(), color_button));
+            buttons.push((zone_flag, color_button));
         }
 
         let theme_row = adw::ActionRow::builder()
@@ -475,9 +578,9 @@ impl DevicePage {
         theme_row.add_suffix(&theme_dropdown);
         group.add(&theme_row);
 
-        let effect_support = crate::rivalcfg::effect_support();
+        let effect_support = self.resolved_effect_support(profile);
 
-        let light_effect_dropdown = if profile.has_light_effect && !effect_support.light_effect_values.is_empty() {
+        let light_effect_dropdown = if effect_support.has_light_effect && !effect_support.light_effect_values.is_empty() {
             let row = adw::ActionRow::builder()
                 .title("Light Effect")
                 .subtitle("Choose an onboard effect supported by this device")
@@ -499,7 +602,7 @@ impl DevicePage {
             None
         };
 
-        let rainbow_effect_dropdown = if profile.has_rainbow_effect {
+        let rainbow_effect_dropdown = if effect_support.has_rainbow_effect {
             let row = adw::ActionRow::builder()
                 .title("Rainbow Effect")
                 .subtitle("Enable a rainbow mode when available")
@@ -542,8 +645,9 @@ impl DevicePage {
 
     fn build_polling_rate_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
         let imp = self.imp();
+        let polling_rates = self.resolved_polling_rates(profile);
 
-        if profile.polling_rates.is_empty() {
+        if polling_rates.is_empty() {
             return;
         }
 
@@ -555,7 +659,7 @@ impl DevicePage {
             .title("Polling Rate (Hz)")
             .build();
 
-        let items: Vec<String> = profile.polling_rates.iter().map(|r| format!("{} Hz", r)).collect();
+        let items: Vec<String> = polling_rates.iter().map(|r| format!("{} Hz", r)).collect();
         let string_list = gtk::StringList::new(&items.iter().map(|s| s.as_str()).collect::<Vec<_>>());
 
         let dropdown = gtk::DropDown::builder()
@@ -564,7 +668,7 @@ impl DevicePage {
             .build();
 
         // Default to 1000 Hz (last item typically)
-        if let Some(idx) = profile.polling_rates.iter().position(|r| *r == 1000) {
+        if let Some(idx) = polling_rates.iter().position(|r| *r == 1000) {
             dropdown.set_selected(idx as u32);
         }
 
@@ -598,16 +702,26 @@ impl DevicePage {
             })
             .collect::<Vec<_>>();
 
-        if presets.len() < 2 {
-            presets = state.sensitivities.iter().copied().take(2).collect();
+        let min_required = if self.resolved_sensitivity_count(profile) >= 2 {
+            2
+        } else {
+            1
+        };
+        if presets.len() < min_required {
+            presets = state
+                .sensitivities
+                .iter()
+                .copied()
+                .take(min_required)
+                .collect();
         }
 
         let colors = if state.rgb_enabled {
             state.colors
         } else {
             let mut off = HashMap::new();
-            for zone in profile.color_zones {
-                off.insert(zone.cli_flag.to_string(), "#000000".to_string());
+            for (flag, _) in self.imp().color_buttons.borrow().iter() {
+                off.insert(flag.clone(), "#000000".to_string());
             }
             off
         };
@@ -686,11 +800,12 @@ impl DevicePage {
             .map(|(flag, btn)| (flag.clone(), rgba_to_hex(btn.rgba())))
             .collect::<HashMap<_, _>>();
 
+        let polling_rates = self.resolved_polling_rates(profile);
         let polling_rate = {
             let dropdown = imp.polling_rate_dropdown.borrow();
             if let Some(ref dd) = *dropdown {
                 let idx = dd.selected() as usize;
-                profile.polling_rates.get(idx).copied().unwrap_or(1000)
+                polling_rates.get(idx).copied().unwrap_or(1000)
             } else {
                 1000
             }
@@ -788,10 +903,8 @@ impl DevicePage {
         }
 
         if let Some(dropdown) = imp.polling_rate_dropdown.borrow().as_ref() {
-            if let Some(pos) = profile
-                .polling_rates
-                .iter()
-                .position(|r| *r == state.polling_rate)
+            let polling_rates = self.resolved_polling_rates(profile);
+            if let Some(pos) = polling_rates.iter().position(|r| *r == state.polling_rate)
             {
                 dropdown.set_selected(pos as u32);
             }
@@ -1002,10 +1115,8 @@ impl DevicePage {
         }
 
         if let Some(dd) = imp.polling_rate_dropdown.borrow().as_ref() {
-            if let Some(pos) = profile
-                .polling_rates
-                .iter()
-                .position(|r| *r == preset.polling_rate)
+            let polling_rates = self.resolved_polling_rates(profile);
+            if let Some(pos) = polling_rates.iter().position(|r| *r == preset.polling_rate)
             {
                 dd.set_selected(pos as u32);
             }

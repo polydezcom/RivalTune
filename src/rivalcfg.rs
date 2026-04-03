@@ -22,8 +22,20 @@ use std::process::Command;
 
 #[derive(Debug, Clone, Default)]
 pub struct EffectSupport {
+    pub has_light_effect: bool,
+    pub has_rainbow_effect: bool,
     pub light_effect_values: Vec<String>,
     pub rainbow_effect_values: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct RuntimeCapabilities {
+    pub sensitivity_presets: Option<u8>,
+    pub sensitivity_min: Option<u32>,
+    pub sensitivity_max: Option<u32>,
+    pub polling_rates: Vec<u32>,
+    pub color_zones: Vec<(String, String)>,
+    pub effects: EffectSupport,
 }
 
 /// Check whether rivalcfg is installed and reachable.
@@ -163,16 +175,39 @@ pub fn set_rainbow_effect(effect: Option<&str>) -> Result<(), String> {
 }
 
 pub fn effect_support() -> EffectSupport {
+    runtime_capabilities().effects
+}
+
+pub fn runtime_capabilities() -> RuntimeCapabilities {
     let output = match Command::new("rivalcfg").arg("-h").output() {
         Ok(output) => output,
-        Err(_) => return EffectSupport::default(),
+        Err(_) => return RuntimeCapabilities::default(),
     };
 
     let help_text = String::from_utf8_lossy(&output.stdout);
 
-    EffectSupport {
+    let mut effects = EffectSupport {
+        has_light_effect: help_text.contains("--light-effect"),
+        has_rainbow_effect: help_text.contains("--rainbow-effect"),
         light_effect_values: extract_values_for_option(&help_text, "--light-effect"),
         rainbow_effect_values: extract_values_for_option(&help_text, "--rainbow-effect"),
+    };
+
+    effects.light_effect_values.sort();
+    effects.light_effect_values.dedup();
+    effects.rainbow_effect_values.sort();
+    effects.rainbow_effect_values.dedup();
+
+    RuntimeCapabilities {
+        sensitivity_presets: detect_sensitivity_preset_count(&help_text),
+        sensitivity_min: detect_sensitivity_range(&help_text).map(|(min, _)| min),
+        sensitivity_max: detect_sensitivity_range(&help_text).map(|(_, max)| max),
+        polling_rates: extract_values_for_option(&help_text, "--polling-rate")
+            .iter()
+            .filter_map(|v| v.parse::<u32>().ok())
+            .collect(),
+        color_zones: detect_color_zones(&help_text),
+        effects,
     }
 }
 
@@ -230,4 +265,169 @@ fn extract_values_for_option(help_text: &str, option_name: &str) -> Vec<String> 
         })
         .filter(|value| !value.is_empty())
         .collect()
+}
+
+fn detect_sensitivity_preset_count(help_text: &str) -> Option<u8> {
+    let mut count = 0u8;
+    for idx in 1..=8 {
+        if help_text.contains(&format!("--sensitivity{}", idx)) {
+            count = count.max(idx as u8);
+        }
+    }
+    if count > 0 {
+        return Some(count);
+    }
+
+    let mut scan = help_text;
+    while let Some(pos) = scan.find("up to ") {
+        let after = &scan[pos + 6..];
+        let digits: String = after.chars().take_while(|c| c.is_ascii_digit()).collect();
+        if let Ok(value) = digits.parse::<u8>() {
+            let tail = &after[digits.len()..after.len().min(digits.len() + 32)];
+            if tail.contains("settings") {
+                return Some(value);
+            }
+        }
+        if after.is_empty() {
+            break;
+        }
+        scan = &after[1..];
+    }
+
+    None
+}
+
+fn detect_sensitivity_range(help_text: &str) -> Option<(u32, u32)> {
+    let mut min_val: Option<u32> = None;
+    let mut max_val: Option<u32> = None;
+    let mut offset = 0usize;
+
+    while let Some(pos) = help_text[offset..].find("--sensitivity") {
+        let abs = offset + pos;
+        let end = (abs + 400).min(help_text.len());
+        let chunk = &help_text[abs..end];
+
+        if let Some((low, high)) = extract_from_to_numbers(chunk) {
+            min_val = Some(min_val.map_or(low, |m| m.min(low)));
+            max_val = Some(max_val.map_or(high, |m| m.max(high)));
+        }
+
+        offset = abs + "--sensitivity".len();
+    }
+
+    match (min_val, max_val) {
+        (Some(minimum), Some(maximum)) => Some((minimum, maximum)),
+        _ => None,
+    }
+}
+
+fn extract_from_to_numbers(text: &str) -> Option<(u32, u32)> {
+    let from_pos = text.find("from ")?;
+    let after_from = &text[from_pos + 5..];
+    let first = extract_first_number(after_from)?;
+
+    let to_pos = after_from.find(" to ")?;
+    let after_to = &after_from[to_pos + 4..];
+    let second = extract_first_number(after_to)?;
+
+    Some((first, second))
+}
+
+fn extract_first_number(text: &str) -> Option<u32> {
+    let start = text.find(|c: char| c.is_ascii_digit())?;
+    let digits: String = text[start..]
+        .chars()
+        .take_while(|c| c.is_ascii_digit())
+        .collect();
+    digits.parse::<u32>().ok()
+}
+
+fn detect_color_zones(help_text: &str) -> Vec<(String, String)> {
+    let mut zones: Vec<(String, String)> = Vec::new();
+
+    for line in help_text.lines() {
+        let trimmed = line.trim();
+        if !trimmed.contains("--") || !trimmed.to_ascii_lowercase().contains("color") {
+            continue;
+        }
+
+        let mut long_opts: Vec<String> = trimmed
+            .split(|c: char| c == ',' || c.is_whitespace())
+            .filter(|t| t.starts_with("--"))
+            .map(|t| t.trim().trim_end_matches(',').to_string())
+            .collect();
+
+        if long_opts.is_empty() {
+            continue;
+        }
+
+        let mut chosen = long_opts
+            .iter()
+            .find(|opt| is_zone_flag(opt))
+            .cloned()
+            .unwrap_or_else(|| long_opts.remove(0));
+
+        if !is_color_flag(&chosen) {
+            if let Some(fallback) = long_opts.iter().find(|opt| is_color_flag(opt)) {
+                chosen = fallback.clone();
+            } else {
+                continue;
+            }
+        }
+
+        if zones.iter().any(|(flag, _)| flag == &chosen) {
+            continue;
+        }
+
+        let label_source = long_opts
+            .iter()
+            .find(|opt| is_color_flag(opt) && !is_zone_flag(opt))
+            .cloned()
+            .unwrap_or_else(|| chosen.clone());
+
+        zones.push((chosen, option_to_label(&label_source)));
+    }
+
+    zones
+}
+
+fn is_zone_flag(opt: &str) -> bool {
+    if !opt.starts_with("--z") {
+        return false;
+    }
+    opt[3..].chars().all(|c| c.is_ascii_digit())
+}
+
+fn is_color_flag(opt: &str) -> bool {
+    opt.contains("color") || is_zone_flag(opt)
+}
+
+fn option_to_label(opt: &str) -> String {
+    let mut name = opt.trim_start_matches('-').to_string();
+    if name.starts_with('z') && name[1..].chars().all(|c| c.is_ascii_digit()) {
+        return format!("Zone {}", &name[1..]);
+    }
+
+    if let Some(stripped) = name.strip_suffix("-color") {
+        name = stripped.to_string();
+    }
+    if name == "color" {
+        return "LED".to_string();
+    }
+
+    name.split('-')
+        .filter(|part| !part.is_empty())
+        .map(|part| {
+            let mut chars = part.chars();
+            match chars.next() {
+                Some(first) => {
+                    let mut out = first.to_ascii_uppercase().to_string();
+                    out.push_str(chars.as_str());
+                    out
+                }
+                None => String::new(),
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
 }
