@@ -21,8 +21,9 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use gtk::glib;
+use std::cell::{Cell, RefCell};
 use std::collections::HashMap;
-use std::cell::RefCell;
+use std::rc::Rc;
 
 use crate::devices::DeviceProfile;
 use crate::state::{DeviceState, UserPreset};
@@ -46,6 +47,7 @@ mod imp {
         pub content_box: RefCell<Option<gtk::Box>>,
         pub section_stack: RefCell<Option<gtk::Stack>>,
         pub sensitivity_scales: RefCell<Vec<gtk::Scale>>,
+        pub sensitivity_enabled: RefCell<Vec<gtk::Switch>>,
         pub color_buttons: RefCell<Vec<(String, gtk::ColorDialogButton)>>,
         pub polling_rate_dropdown: RefCell<Option<gtk::DropDown>>,
         pub rgb_switch: RefCell<Option<gtk::Switch>>,
@@ -120,7 +122,6 @@ impl DevicePage {
             .build();
         self.build_sensitivity_section(&sensitivity_tab, profile);
         self.build_polling_rate_section(&sensitivity_tab, profile);
-        self.build_action_buttons(&sensitivity_tab);
 
         let rgb_tab = gtk::Box::builder()
             .orientation(gtk::Orientation::Vertical)
@@ -189,6 +190,11 @@ impl DevicePage {
             .css_classes(vec!["pill".to_string()])
             .build();
 
+        let reset_button = gtk::Button::builder()
+            .label("Reset to Defaults")
+            .css_classes(vec!["destructive-action".to_string()])
+            .build();
+
         let popover_content = gtk::Box::builder()
             .orientation(gtk::Orientation::Vertical)
             .spacing(8)
@@ -201,14 +207,24 @@ impl DevicePage {
         popover_content.append(&preset_name_entry);
         popover_content.append(&save_button);
         popover_content.append(&apply_preset_button);
+        popover_content.append(&gtk::Separator::new(gtk::Orientation::Horizontal));
+        popover_content.append(&reset_button);
 
         let popover = gtk::Popover::builder().child(&popover_content).build();
 
+        let presets_icon = gtk::Image::from_resource(
+            "/org/gtk/example/icons/scalable/actions/brush-symbolic.svg",
+        );
+        presets_icon.set_pixel_size(16);
+
         let presets_button = gtk::MenuButton::builder()
-            .label("Presets")
+            .tooltip_text("Presets")
             .popover(&popover)
+            .has_frame(false)
             .valign(gtk::Align::Center)
             .build();
+        presets_button.set_child(Some(&presets_icon));
+        presets_button.set_property("always-show-arrow", false);
 
         let apply_button = gtk::Button::builder()
             .label("Apply")
@@ -240,8 +256,21 @@ impl DevicePage {
             page_for_apply_settings.apply_settings(profile_for_apply_settings, btn);
         });
 
-        controls.append(&presets_button);
+        reset_button.connect_clicked(|btn| {
+            btn.set_sensitive(false);
+            match crate::rivalcfg::reset() {
+                Ok(_) => {
+                    btn.set_sensitive(true);
+                }
+                Err(e) => {
+                    eprintln!("Reset failed: {}", e);
+                    btn.set_sensitive(true);
+                }
+            }
+        });
+
         controls.append(&apply_button);
+        controls.append(&presets_button);
 
         imp.preset_name_entry.replace(Some(preset_name_entry));
         imp.preset_model.replace(Some(preset_model));
@@ -266,6 +295,7 @@ impl DevicePage {
             .build();
 
         let mut scales = Vec::new();
+        let mut enabled_switches = Vec::new();
 
         for i in 0..profile.max_sensitivity_presets {
             let default_dpi = match i {
@@ -278,6 +308,12 @@ impl DevicePage {
             let row = adw::ActionRow::builder()
                 .title(format!("Preset {}", i + 1))
                 .build();
+
+            let enabled_switch = gtk::Switch::builder()
+                .active(i < 2)
+                .valign(gtk::Align::Center)
+                .build();
+            row.add_prefix(&enabled_switch);
 
             let scale_box = gtk::Box::builder()
                 .orientation(gtk::Orientation::Horizontal)
@@ -301,27 +337,61 @@ impl DevicePage {
                 .draw_value(false)
                 .build();
 
-            let dpi_label = gtk::Label::builder()
-                .label(&format!("{} DPI", default_dpi as u32))
-                .width_chars(9)
+            let dpi_input = gtk::SpinButton::builder()
+                .adjustment(&adj)
+                .digits(0)
+                .numeric(true)
+                .width_chars(6)
                 .css_classes(vec!["monospace".to_string()])
+                .valign(gtk::Align::Center)
                 .build();
+            dpi_input.set_value(default_dpi);
 
-            let dpi_label_clone = dpi_label.clone();
+            let sync_guard = Rc::new(Cell::new(false));
+
+            let dpi_input_clone = dpi_input.clone();
+            let sync_guard_for_scale = sync_guard.clone();
             scale.connect_value_changed(move |s| {
-                let val = s.value() as u32;
-                dpi_label_clone.set_label(&format!("{} DPI", val));
+                if sync_guard_for_scale.get() {
+                    return;
+                }
+
+                sync_guard_for_scale.set(true);
+                dpi_input_clone.set_value(s.value().round());
+                sync_guard_for_scale.set(false);
+            });
+
+            let scale_clone = scale.clone();
+            let sync_guard_for_input = sync_guard.clone();
+            dpi_input.connect_value_changed(move |spin| {
+                if sync_guard_for_input.get() {
+                    return;
+                }
+
+                sync_guard_for_input.set(true);
+                scale_clone.set_value(spin.value());
+                sync_guard_for_input.set(false);
+            });
+
+            let scale_for_enable = scale.clone();
+            let input_for_enable = dpi_input.clone();
+            enabled_switch.connect_active_notify(move |sw| {
+                let enabled = sw.is_active();
+                scale_for_enable.set_sensitive(enabled);
+                input_for_enable.set_sensitive(enabled);
             });
 
             scale_box.append(&scale);
-            scale_box.append(&dpi_label);
+            scale_box.append(&dpi_input);
 
             row.add_suffix(&scale_box);
             group.add(&row);
             scales.push(scale);
+            enabled_switches.push(enabled_switch);
         }
 
         imp.sensitivity_scales.replace(scales);
+        imp.sensitivity_enabled.replace(enabled_switches);
         parent.append(&group);
     }
 
@@ -388,7 +458,7 @@ impl DevicePage {
 
         let theme_apply = gtk::Button::builder()
             .label("Apply Theme")
-            .css_classes(vec!["pill".to_string()])
+            .css_classes(vec!["suggested-action".to_string()])
             .valign(gtk::Align::Center)
             .build();
 
@@ -463,41 +533,27 @@ impl DevicePage {
         parent.append(&group);
     }
 
-    fn build_action_buttons(&self, parent: &gtk::Box) {
-        let button_box = gtk::Box::builder()
-            .orientation(gtk::Orientation::Horizontal)
-            .spacing(12)
-            .halign(gtk::Align::Center)
-            .margin_top(12)
-            .build();
-
-        let reset_button = gtk::Button::builder()
-            .label("Reset to Defaults")
-            .css_classes(vec!["destructive-action".to_string(), "pill".to_string()])
-            .build();
-
-        reset_button.connect_clicked(|btn| {
-            btn.set_sensitive(false);
-            match crate::rivalcfg::reset() {
-                Ok(_) => {
-                    btn.set_sensitive(true);
-                }
-                Err(e) => {
-                    eprintln!("Reset failed: {}", e);
-                    btn.set_sensitive(true);
-                }
-            }
-        });
-
-        button_box.append(&reset_button);
-        parent.append(&button_box);
-    }
-
     fn apply_settings(&self, profile: &'static DeviceProfile, button: &gtk::Button) {
         button.set_sensitive(false);
 
         let state = self.collect_current_state(profile);
-        let presets = state.sensitivities.clone();
+        let mut presets = state
+            .sensitivities
+            .iter()
+            .enumerate()
+            .filter_map(|(idx, value)| {
+                if state.sensitivity_enabled.get(idx).copied().unwrap_or(true) {
+                    Some(*value)
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<_>>();
+
+        if presets.len() < 2 {
+            presets = state.sensitivities.iter().copied().take(2).collect();
+        }
+
         let colors = if state.rgb_enabled {
             state.colors
         } else {
@@ -537,12 +593,23 @@ impl DevicePage {
 
     fn collect_current_state(&self, profile: &'static DeviceProfile) -> DeviceState {
         let imp = self.imp();
+        let mut sensitivity_enabled = imp
+            .sensitivity_enabled
+            .borrow()
+            .iter()
+            .map(|sw| sw.is_active())
+            .collect::<Vec<_>>();
+
         let sensitivities = imp
             .sensitivity_scales
             .borrow()
             .iter()
             .map(|s| s.value() as u32)
             .collect::<Vec<_>>();
+
+        if sensitivity_enabled.len() < sensitivities.len() {
+            sensitivity_enabled.resize(sensitivities.len(), true);
+        }
 
         let colors = imp
             .color_buttons
@@ -570,6 +637,7 @@ impl DevicePage {
 
         DeviceState {
             sensitivities,
+            sensitivity_enabled,
             colors,
             polling_rate,
             rgb_enabled,
@@ -595,6 +663,18 @@ impl DevicePage {
             if let Some(value) = state.sensitivities.get(idx) {
                 scale.set_value(*value as f64);
             }
+        }
+
+        let has_explicit_enabled = !state.sensitivity_enabled.is_empty();
+        for (idx, enabled_switch) in imp.sensitivity_enabled.borrow().iter().enumerate() {
+            let enabled = if has_explicit_enabled {
+                state.sensitivity_enabled.get(idx).copied().unwrap_or(true)
+            } else if state.sensitivities.is_empty() {
+                true
+            } else {
+                idx < state.sensitivities.len()
+            };
+            enabled_switch.set_active(enabled);
         }
 
         for (flag, button) in imp.color_buttons.borrow().iter() {
@@ -630,6 +710,14 @@ impl DevicePage {
             let page = self.clone();
             let profile_for_save = profile;
             scale.connect_value_changed(move |_| {
+                page.save_current_state(profile_for_save);
+            });
+        }
+
+        for enabled_switch in imp.sensitivity_enabled.borrow().iter() {
+            let page = self.clone();
+            let profile_for_save = profile;
+            enabled_switch.connect_active_notify(move |_| {
                 page.save_current_state(profile_for_save);
             });
         }
@@ -701,6 +789,7 @@ impl DevicePage {
         let preset = UserPreset {
             name,
             sensitivities: state.sensitivities,
+            sensitivity_enabled: state.sensitivity_enabled,
             colors: state.colors,
             polling_rate: state.polling_rate,
             rgb_enabled: state.rgb_enabled,
@@ -737,6 +826,18 @@ impl DevicePage {
             if let Some(val) = preset.sensitivities.get(i) {
                 scale.set_value(*val as f64);
             }
+        }
+
+        let has_explicit_enabled = !preset.sensitivity_enabled.is_empty();
+        for (idx, enabled_switch) in imp.sensitivity_enabled.borrow().iter().enumerate() {
+            let enabled = if has_explicit_enabled {
+                preset.sensitivity_enabled.get(idx).copied().unwrap_or(true)
+            } else if preset.sensitivities.is_empty() {
+                true
+            } else {
+                idx < preset.sensitivities.len()
+            };
+            enabled_switch.set_active(enabled);
         }
 
         for (flag, button) in imp.color_buttons.borrow().iter() {

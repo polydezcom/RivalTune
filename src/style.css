@@ -1,0 +1,11 @@
+.compact-tabs {
+  min-height: 20px;
+}
+
+.compact-tabs button {
+  min-height: 18px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 6px;
+  padding-right: 6px;
+}

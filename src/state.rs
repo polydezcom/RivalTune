@@ -27,6 +27,8 @@ use std::path::PathBuf;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DeviceState {
     pub sensitivities: Vec<u32>,
+    #[serde(default)]
+    pub sensitivity_enabled: Vec<bool>,
     pub colors: HashMap<String, String>,
     pub polling_rate: u32,
     pub rgb_enabled: bool,
@@ -36,6 +38,7 @@ impl Default for DeviceState {
     fn default() -> Self {
         Self {
             sensitivities: Vec::new(),
+            sensitivity_enabled: Vec::new(),
             colors: HashMap::new(),
             polling_rate: 1000,
             rgb_enabled: true,
@@ -47,6 +50,8 @@ impl Default for DeviceState {
 pub struct UserPreset {
     pub name: String,
     pub sensitivities: Vec<u32>,
+    #[serde(default)]
+    pub sensitivity_enabled: Vec<bool>,
     pub colors: HashMap<String, String>,
     pub polling_rate: u32,
     pub rgb_enabled: bool,
