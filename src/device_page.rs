@@ -26,7 +26,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 use crate::devices::DeviceProfile;
-use crate::state::{DeviceState, UserPreset};
+use crate::state::DeviceState;
 
 const LIGHT_THEMES: [(&str, [&str; 8]); 8] = [
     ("Sunset", ["#ff6b6b", "#ff8e53", "#ffcd56", "#ffe66d", "#ff6b6b", "#ff8e53", "#ffcd56", "#ffe66d"]),
@@ -52,13 +52,9 @@ mod imp {
         pub color_buttons: RefCell<Vec<(String, gtk::ColorDialogButton)>>,
         pub polling_rate_dropdown: RefCell<Option<gtk::DropDown>>,
         pub rgb_switch: RefCell<Option<gtk::Switch>>,
-        pub preset_name_entry: RefCell<Option<gtk::Entry>>,
-        pub preset_dropdown: RefCell<Option<gtk::DropDown>>,
-        pub preset_model: RefCell<Option<gtk::StringList>>,
         pub theme_dropdown: RefCell<Option<gtk::DropDown>>,
         pub light_effect_dropdown: RefCell<Option<gtk::DropDown>>,
         pub rainbow_effect_dropdown: RefCell<Option<gtk::DropDown>>,
-        pub user_presets: RefCell<Vec<UserPreset>>,
         pub profile_name: RefCell<String>,
     }
 
@@ -145,7 +141,6 @@ impl DevicePage {
         imp.content_box.replace(Some(main_box));
         imp.section_stack.replace(Some(section_stack));
         self.restore_state(profile);
-        self.refresh_preset_dropdown(profile);
     }
 
     pub fn build_header_tab_switcher(&self) -> Option<gtk::StackSwitcher> {
@@ -276,36 +271,10 @@ impl DevicePage {
     }
 
     pub fn build_header_controls(&self, profile: &'static DeviceProfile) -> gtk::Box {
-        let imp = self.imp();
-
         let controls = gtk::Box::builder()
             .orientation(gtk::Orientation::Horizontal)
             .spacing(6)
             .valign(gtk::Align::Center)
-            .build();
-
-        let preset_model = gtk::StringList::new(&[]);
-        let preset_dropdown = gtk::DropDown::builder()
-            .model(&preset_model)
-            .tooltip_text("Select saved preset")
-            .valign(gtk::Align::Center)
-            .hexpand(true)
-            .width_request(180)
-            .build();
-
-        let preset_name_entry = gtk::Entry::builder()
-            .placeholder_text("Preset name")
-            .hexpand(true)
-            .build();
-
-        let save_button = gtk::Button::builder()
-            .label("Save Preset")
-            .css_classes(vec!["pill".to_string()])
-            .build();
-
-        let apply_preset_button = gtk::Button::builder()
-            .label("Apply Selected")
-            .css_classes(vec!["pill".to_string()])
             .build();
 
         let reset_button = gtk::Button::builder()
@@ -313,58 +282,11 @@ impl DevicePage {
             .css_classes(vec!["destructive-action".to_string()])
             .build();
 
-        let popover_content = gtk::Box::builder()
-            .orientation(gtk::Orientation::Vertical)
-            .spacing(8)
-            .margin_top(8)
-            .margin_bottom(8)
-            .margin_start(8)
-            .margin_end(8)
-            .build();
-        popover_content.append(&preset_dropdown);
-        popover_content.append(&preset_name_entry);
-        popover_content.append(&save_button);
-        popover_content.append(&apply_preset_button);
-        popover_content.append(&gtk::Separator::new(gtk::Orientation::Horizontal));
-        popover_content.append(&reset_button);
-
-        let popover = gtk::Popover::builder().child(&popover_content).build();
-
-        let presets_icon = gtk::Image::from_icon_name("folder-download-symbolic");
-        presets_icon.set_pixel_size(16);
-
-        let presets_button = gtk::MenuButton::builder()
-            .tooltip_text("Presets")
-            .popover(&popover)
-            .has_frame(false)
-            .valign(gtk::Align::Center)
-            .build();
-        presets_button.set_child(Some(&presets_icon));
-        presets_button.set_property("always-show-arrow", false);
-
         let apply_button = gtk::Button::builder()
             .label("Apply")
             .css_classes(vec!["suggested-action".to_string()])
             .valign(gtk::Align::Center)
             .build();
-
-        let page_for_save = self.clone();
-        let profile_for_save = profile;
-        save_button.connect_clicked(move |_| {
-            page_for_save.save_current_as_preset(profile_for_save);
-        });
-
-        let page_for_save_enter = self.clone();
-        let profile_for_save_enter = profile;
-        preset_name_entry.connect_activate(move |_| {
-            page_for_save_enter.save_current_as_preset(profile_for_save_enter);
-        });
-
-        let page_for_apply_preset = self.clone();
-        let profile_for_apply_preset = profile;
-        apply_preset_button.connect_clicked(move |_| {
-            page_for_apply_preset.apply_selected_preset(profile_for_apply_preset);
-        });
 
         let page_for_apply_settings = self.clone();
         let profile_for_apply_settings = profile;
@@ -386,13 +308,6 @@ impl DevicePage {
         });
 
         controls.append(&apply_button);
-        controls.append(&presets_button);
-
-        imp.preset_name_entry.replace(Some(preset_name_entry));
-        imp.preset_model.replace(Some(preset_model));
-        imp.preset_dropdown.replace(Some(preset_dropdown));
-
-        self.refresh_preset_dropdown(profile);
 
         controls
     }
@@ -1011,139 +926,6 @@ impl DevicePage {
         if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
             rainbow_dropdown.set_sensitive(enabled);
         }
-    }
-
-    fn refresh_preset_dropdown(&self, profile: &'static DeviceProfile) {
-        let imp = self.imp();
-        let presets = crate::state::list_presets(profile.name);
-        let names = presets
-            .iter()
-            .map(|p| p.name.as_str())
-            .collect::<Vec<_>>();
-
-        let model = gtk::StringList::new(&names);
-        if let Some(dropdown) = imp.preset_dropdown.borrow().as_ref() {
-            dropdown.set_model(Some(&model));
-            if !presets.is_empty() {
-                dropdown.set_selected(0);
-            }
-        }
-
-        imp.preset_model.replace(Some(model));
-        imp.user_presets.replace(presets);
-    }
-
-    fn save_current_as_preset(&self, profile: &'static DeviceProfile) {
-        let imp = self.imp();
-        let name = imp
-            .preset_name_entry
-            .borrow()
-            .as_ref()
-            .map(|entry| entry.text().trim().to_string())
-            .unwrap_or_default();
-
-        let name = if name.is_empty() {
-            let count = crate::state::list_presets(profile.name).len() + 1;
-            format!("Preset {}", count)
-        } else {
-            name
-        };
-
-        let state = self.collect_current_state(profile);
-        let preset = UserPreset {
-            name,
-            sensitivities: state.sensitivities,
-            sensitivity_enabled: state.sensitivity_enabled,
-            colors: state.colors,
-            polling_rate: state.polling_rate,
-            rgb_enabled: state.rgb_enabled,
-            light_effect: state.light_effect,
-            rainbow_effect: state.rainbow_effect,
-        };
-
-        if let Err(e) = crate::state::save_preset(profile.name, preset) {
-            eprintln!("Failed to save preset: {}", e);
-            return;
-        }
-
-        if let Some(entry) = imp.preset_name_entry.borrow().as_ref() {
-            entry.set_text("");
-        }
-
-        self.refresh_preset_dropdown(profile);
-        self.save_current_state(profile);
-    }
-
-    fn apply_selected_preset(&self, profile: &'static DeviceProfile) {
-        let imp = self.imp();
-        let idx = imp
-            .preset_dropdown
-            .borrow()
-            .as_ref()
-            .map(|dd| dd.selected() as usize)
-            .unwrap_or(usize::MAX);
-
-        let presets = imp.user_presets.borrow();
-        let Some(preset) = presets.get(idx) else {
-            return;
-        };
-
-        for (i, scale) in imp.sensitivity_scales.borrow().iter().enumerate() {
-            if let Some(val) = preset.sensitivities.get(i) {
-                scale.set_value(*val as f64);
-            }
-        }
-
-        let has_explicit_enabled = !preset.sensitivity_enabled.is_empty();
-        for (idx, enabled_switch) in imp.sensitivity_enabled.borrow().iter().enumerate() {
-            let enabled = if has_explicit_enabled {
-                preset.sensitivity_enabled.get(idx).copied().unwrap_or(true)
-            } else if preset.sensitivities.is_empty() {
-                true
-            } else {
-                idx < preset.sensitivities.len()
-            };
-            enabled_switch.set_active(enabled);
-        }
-
-        for (flag, button) in imp.color_buttons.borrow().iter() {
-            if let Some(hex) = preset.colors.get(flag) {
-                if let Some(rgba) = hex_to_rgba(hex) {
-                    button.set_rgba(&rgba);
-                }
-            }
-        }
-
-        if let Some(dd) = imp.polling_rate_dropdown.borrow().as_ref() {
-            let polling_rates = self.resolved_polling_rates(profile);
-            if let Some(pos) = polling_rates.iter().position(|r| *r == preset.polling_rate)
-            {
-                dd.set_selected(pos as u32);
-            }
-        }
-
-        if let Some(rgb_switch) = imp.rgb_switch.borrow().as_ref() {
-            rgb_switch.set_active(preset.rgb_enabled);
-        }
-
-        if let Some(light_dropdown) = imp.light_effect_dropdown.borrow().as_ref() {
-            if let Some(effect) = preset.light_effect.as_deref() {
-                select_dropdown_value(light_dropdown, effect);
-            } else {
-                light_dropdown.set_selected(0);
-            }
-        }
-
-        if let Some(rainbow_dropdown) = imp.rainbow_effect_dropdown.borrow().as_ref() {
-            if let Some(effect) = preset.rainbow_effect.as_deref() {
-                select_dropdown_value(rainbow_dropdown, effect);
-            } else {
-                rainbow_dropdown.set_selected(0);
-            }
-        }
-
-        self.update_rgb_widgets_enabled();
-        self.save_current_state(profile);
     }
 
     fn apply_selected_theme(&self) {

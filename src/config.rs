@@ -1,4 +1,4 @@
-pub static VERSION: &str = "1.8.3";
+pub static VERSION: &str = "1.8.4";
 pub static GETTEXT_PACKAGE: &str = "rivaltune";
 pub static LOCALEDIR: &str = "/app/share/locale";
 pub static PKGDATADIR: &str = "/app/share/rivaltune";

@@ -1,8 +1,41 @@
 {
     "name": "python3-rivalcfg",
     "buildsystem": "simple",
+    "build-options": {
+        "env": {
+            "PIP_NO_INDEX": "1"
+        }
+    },
     "build-commands": [
-        "pip3 install --verbose --exists-action=i --prefix=${FLATPAK_DEST} rivalcfg"
+        "pip3 install --verbose --exists-action=i --prefix=${FLATPAK_DEST} --no-build-isolation ./flit_core-3.12.0 ./cython-3.2.4",
+        "pip3 install --verbose --exists-action=i --prefix=${FLATPAK_DEST} --no-build-isolation ./hidapi-0.15.0",
+        "pip3 install --verbose --exists-action=i --prefix=${FLATPAK_DEST} --no-build-isolation ./rivalcfg-4.17.0"
     ],
-    "sources": []
+    "sources": [
+        {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/69/59/b6fc2188dfc7ea4f936cd12b49d707f66a1cb7a1d2c16172963534db741b/flit_core-3.12.0.tar.gz",
+            "sha256": "18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2"
+        },
+        {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/91/85/7574c9cd44b69a27210444b6650f6477f56c75fee1b70d7672d3e4166167/cython-3.2.4.tar.gz",
+            "sha256": "84226ecd313b233da27dc2eb3601b4f222b8209c3a7216d8733b031da1dc64e6"
+        },
+        {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/74/f6/caad9ed701fbb9223eb9e0b41a5514390769b4cb3084a2704ab69e9df0fe/hidapi-0.15.0.tar.gz",
+            "sha256": "ecbc265cbe8b7b88755f421e0ba25f084091ec550c2b90ff9e8ddd4fcd540311"
+        },
+        {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/96/57/12cd860e87e2dca2b62a9d4129cffb891f09acdd91b56c7ac4db6c0ae43a/rivalcfg-4.17.0.tar.gz",
+            "sha256": "f2c6fef1a441c558bd7cd36862e894a7f16632bc9cc91a44c6a0dca522507b2a"
+        }
+    ],
+    "cleanup": [
+        "/bin",
+        "/share/man",
+        "/share/doc"
+    ]
 }

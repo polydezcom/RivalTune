@@ -8,25 +8,18 @@
     ],
     "command" : "rivaltune",
     "finish-args" : [
-        "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
         "--device=all",
         "--socket=wayland",
-        "--talk-name=org.freedesktop.PolicyKit1",
-        "--system-talk-name=org.freedesktop.UDisks2",
         "--filesystem=/run/udev:ro",
         "--filesystem=/sys/bus/usb:ro",
         "--filesystem=/sys/bus/hid:ro"
     ],
     "build-options" : {
         "append-path" : "/usr/lib/sdk/rust-stable/bin",
-        "build-args" : [
-            "--share=network"
-        ],
         "env" : {
-            "RUST_BACKTRACE" : "1",
-            "RUST_LOG" : "rivaltune=debug"
+            "RUST_BACKTRACE" : "1"
         }
     },
     "cleanup" : [
@@ -48,8 +41,20 @@
             "buildsystem" : "meson",
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "file:///home/berk/Projects/RivalTune"
+                    "type" : "archive",
+                    "url" : "https://github.com/polydezcom/RivalTune/archive/refs/tags/v1.8.4.tar.gz",
+                    "sha256" : "36b251b9b0ef91b2e4ebb4ddae9916ec7861ce433af15f8c164a2d0fd7aa6c12"
+                },
+                {
+                    "type" : "file",
+                    "path" : "cargo-sources.json"
+                },
+                {
+                    "type" : "shell",
+                    "commands" : [
+                        "mkdir -p .cargo",
+                        "cp -f cargo/config .cargo/config.toml"
+                    ]
                 }
             ]
         }
