@@ -17,6 +17,13 @@
               </object>
             </child>
             <child type="end">
+              <object class="GtkBox" id="device_controls_box">
+                <property name="spacing">6</property>
+                <property name="visible">False</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+            <child type="end">
               <object class="GtkMenuButton">
                 <property name="primary">True</property>
                 <property name="icon-name">open-menu-symbolic</property>

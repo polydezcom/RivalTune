@@ -37,6 +37,8 @@ mod imp {
         pub header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
         pub refresh_button: TemplateChild<gtk::Button>,
+        #[template_child]
+        pub device_controls_box: TemplateChild<gtk::Box>,
     }
 
     #[glib::object_subclass]
@@ -144,7 +146,13 @@ impl RivaltuneWindow {
     }
 
     fn try_detect_device(&self) {
-        let stack = &self.imp().main_stack;
+        let imp = self.imp();
+        let stack = &imp.main_stack;
+        let controls_box = imp.device_controls_box.get();
+
+        while let Some(child) = controls_box.first_child() {
+            controls_box.remove(&child);
+        }
 
         if let Some(profile) = crate::devices::detect_device() {
             // Remove old device page if exists
@@ -154,9 +162,13 @@ impl RivaltuneWindow {
 
             let device_page = DevicePage::new();
             device_page.load_device(profile);
+            let controls = device_page.build_header_controls(profile);
+            controls_box.append(&controls);
+            controls_box.set_visible(true);
             stack.add_named(&device_page, Some("device"));
             stack.set_visible_child_name("device");
         } else {
+            controls_box.set_visible(false);
             stack.set_visible_child_name("no-device");
         }
     }

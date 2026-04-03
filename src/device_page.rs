@@ -108,20 +108,35 @@ impl DevicePage {
             .build();
         main_box.append(&device_label);
 
-        // --- Sensitivity section ---
-        self.build_sensitivity_section(&main_box, profile);
+        let section_stack = gtk::Stack::builder()
+            .transition_type(gtk::StackTransitionType::SlideLeftRight)
+            .transition_duration(200)
+            .build();
 
-        // --- Color section ---
-        self.build_color_section(&main_box, profile);
+        let tab_switcher = gtk::StackSwitcher::builder()
+            .stack(&section_stack)
+            .halign(gtk::Align::Center)
+            .build();
 
-        // --- Presets section ---
-        self.build_presets_section(&main_box, profile);
+        let sensitivity_tab = gtk::Box::builder()
+            .orientation(gtk::Orientation::Vertical)
+            .spacing(16)
+            .build();
+        self.build_sensitivity_section(&sensitivity_tab, profile);
+        self.build_polling_rate_section(&sensitivity_tab, profile);
+        self.build_action_buttons(&sensitivity_tab);
 
-        // --- Polling Rate section ---
-        self.build_polling_rate_section(&main_box, profile);
+        let rgb_tab = gtk::Box::builder()
+            .orientation(gtk::Orientation::Vertical)
+            .spacing(16)
+            .build();
+        self.build_color_section(&rgb_tab, profile);
 
-        // --- Apply / Reset buttons ---
-        self.build_action_buttons(&main_box, profile);
+        section_stack.add_titled(&sensitivity_tab, Some("sensitivity"), "Sensitivity");
+        section_stack.add_titled(&rgb_tab, Some("rgb-effects"), "RGB & Effects");
+
+        main_box.append(&tab_switcher);
+        main_box.append(&section_stack);
 
         clamp.set_child(Some(&main_box));
         scroll.set_child(Some(&clamp));
@@ -130,6 +145,102 @@ impl DevicePage {
         imp.content_box.replace(Some(main_box));
         self.restore_state(profile);
         self.refresh_preset_dropdown(profile);
+    }
+
+    pub fn build_header_controls(&self, profile: &'static DeviceProfile) -> gtk::Box {
+        let imp = self.imp();
+
+        let controls = gtk::Box::builder()
+            .orientation(gtk::Orientation::Horizontal)
+            .spacing(6)
+            .valign(gtk::Align::Center)
+            .build();
+
+        let preset_model = gtk::StringList::new(&[]);
+        let preset_dropdown = gtk::DropDown::builder()
+            .model(&preset_model)
+            .tooltip_text("Select saved preset")
+            .valign(gtk::Align::Center)
+            .hexpand(true)
+            .width_request(180)
+            .build();
+
+        let preset_name_entry = gtk::Entry::builder()
+            .placeholder_text("Preset name")
+            .hexpand(true)
+            .build();
+
+        let save_button = gtk::Button::builder()
+            .label("Save Preset")
+            .css_classes(vec!["pill".to_string()])
+            .build();
+
+        let apply_preset_button = gtk::Button::builder()
+            .label("Apply Selected")
+            .css_classes(vec!["pill".to_string()])
+            .build();
+
+        let popover_content = gtk::Box::builder()
+            .orientation(gtk::Orientation::Vertical)
+            .spacing(8)
+            .margin_top(8)
+            .margin_bottom(8)
+            .margin_start(8)
+            .margin_end(8)
+            .build();
+        popover_content.append(&preset_name_entry);
+        popover_content.append(&save_button);
+        popover_content.append(&apply_preset_button);
+
+        let popover = gtk::Popover::builder().child(&popover_content).build();
+
+        let presets_button = gtk::MenuButton::builder()
+            .label("Presets")
+            .popover(&popover)
+            .valign(gtk::Align::Center)
+            .build();
+
+        let apply_button = gtk::Button::builder()
+            .label("Apply")
+            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
+            .valign(gtk::Align::Center)
+            .build();
+
+        let page_for_save = self.clone();
+        let profile_for_save = profile;
+        save_button.connect_clicked(move |_| {
+            page_for_save.save_current_as_preset(profile_for_save);
+        });
+
+        let page_for_save_enter = self.clone();
+        let profile_for_save_enter = profile;
+        preset_name_entry.connect_activate(move |_| {
+            page_for_save_enter.save_current_as_preset(profile_for_save_enter);
+        });
+
+        let page_for_apply_preset = self.clone();
+        let profile_for_apply_preset = profile;
+        apply_preset_button.connect_clicked(move |_| {
+            page_for_apply_preset.apply_selected_preset(profile_for_apply_preset);
+        });
+
+        let page_for_apply_settings = self.clone();
+        let profile_for_apply_settings = profile;
+        apply_button.connect_clicked(move |btn| {
+            page_for_apply_settings.apply_settings(profile_for_apply_settings, btn);
+        });
+
+        controls.append(&preset_dropdown);
+        controls.append(&presets_button);
+        controls.append(&apply_button);
+
+        imp.preset_name_entry.replace(Some(preset_name_entry));
+        imp.preset_model.replace(Some(preset_model));
+        imp.preset_dropdown.replace(Some(preset_dropdown));
+
+        self.refresh_preset_dropdown(profile);
+
+        controls
     }
 
     fn build_sensitivity_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
@@ -302,79 +413,6 @@ impl DevicePage {
         parent.append(&group);
     }
 
-    fn build_presets_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
-        let imp = self.imp();
-
-        let group = adw::PreferencesGroup::builder()
-            .title("Presets")
-            .description("Save and re-apply complete device settings")
-            .build();
-
-        let save_row = adw::ActionRow::builder()
-            .title("Save Current Settings")
-            .build();
-
-        let preset_name_entry = gtk::Entry::builder()
-            .placeholder_text("Preset name")
-            .width_chars(18)
-            .build();
-
-        let save_button = gtk::Button::builder()
-            .label("Save")
-            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
-            .build();
-
-        let save_box = gtk::Box::builder()
-            .orientation(gtk::Orientation::Horizontal)
-            .spacing(8)
-            .build();
-        save_box.append(&preset_name_entry);
-        save_box.append(&save_button);
-        save_row.add_suffix(&save_box);
-        group.add(&save_row);
-
-        let apply_row = adw::ActionRow::builder()
-            .title("Apply Saved Preset")
-            .build();
-
-        let preset_model = gtk::StringList::new(&[]);
-        let preset_dropdown = gtk::DropDown::builder()
-            .model(&preset_model)
-            .valign(gtk::Align::Center)
-            .build();
-
-        let apply_button = gtk::Button::builder()
-            .label("Apply Preset")
-            .css_classes(vec!["pill".to_string()])
-            .build();
-
-        let apply_box = gtk::Box::builder()
-            .orientation(gtk::Orientation::Horizontal)
-            .spacing(8)
-            .build();
-        apply_box.append(&preset_dropdown);
-        apply_box.append(&apply_button);
-        apply_row.add_suffix(&apply_box);
-        group.add(&apply_row);
-
-        let page_for_save = self.clone();
-        let profile_for_save = profile;
-        save_button.connect_clicked(move |_| {
-            page_for_save.save_current_as_preset(profile_for_save);
-        });
-
-        let page_for_apply = self.clone();
-        let profile_for_apply = profile;
-        apply_button.connect_clicked(move |_| {
-            page_for_apply.apply_selected_preset(profile_for_apply);
-        });
-
-        imp.preset_name_entry.replace(Some(preset_name_entry));
-        imp.preset_model.replace(Some(preset_model));
-        imp.preset_dropdown.replace(Some(preset_dropdown));
-        parent.append(&group);
-    }
-
     fn build_polling_rate_section(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
         let imp = self.imp();
 
@@ -416,7 +454,7 @@ impl DevicePage {
         parent.append(&group);
     }
 
-    fn build_action_buttons(&self, parent: &gtk::Box, profile: &'static DeviceProfile) {
+    fn build_action_buttons(&self, parent: &gtk::Box) {
         let button_box = gtk::Box::builder()
             .orientation(gtk::Orientation::Horizontal)
             .spacing(12)
@@ -424,21 +462,10 @@ impl DevicePage {
             .margin_top(12)
             .build();
 
-        let apply_button = gtk::Button::builder()
-            .label("Apply")
-            .css_classes(vec!["suggested-action".to_string(), "pill".to_string()])
-            .build();
-
         let reset_button = gtk::Button::builder()
             .label("Reset to Defaults")
             .css_classes(vec!["destructive-action".to_string(), "pill".to_string()])
             .build();
-
-        let page = self.clone();
-        let profile_for_apply = profile;
-        apply_button.connect_clicked(move |btn| {
-            page.apply_settings(profile_for_apply, btn);
-        });
 
         reset_button.connect_clicked(|btn| {
             btn.set_sensitive(false);
@@ -453,7 +480,6 @@ impl DevicePage {
             }
         });
 
-        button_box.append(&apply_button);
         button_box.append(&reset_button);
         parent.append(&button_box);
     }
