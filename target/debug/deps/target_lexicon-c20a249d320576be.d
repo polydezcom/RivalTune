@@ -1,0 +1,15 @@
+/home/berk/Projects/RivalTune/target/debug/deps/target_lexicon-c20a249d320576be.d: /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/lib.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/data_model.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/host.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/parse_error.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/targets.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/triple.rs /home/berk/Projects/RivalTune/target/debug/build/target-lexicon-c0895ee4bff53946/out/host.rs
+
+/home/berk/Projects/RivalTune/target/debug/deps/libtarget_lexicon-c20a249d320576be.rlib: /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/lib.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/data_model.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/host.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/parse_error.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/targets.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/triple.rs /home/berk/Projects/RivalTune/target/debug/build/target-lexicon-c0895ee4bff53946/out/host.rs
+
+/home/berk/Projects/RivalTune/target/debug/deps/libtarget_lexicon-c20a249d320576be.rmeta: /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/lib.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/data_model.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/host.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/parse_error.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/targets.rs /home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/triple.rs /home/berk/Projects/RivalTune/target/debug/build/target-lexicon-c0895ee4bff53946/out/host.rs
+
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/lib.rs:
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/data_model.rs:
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/host.rs:
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/parse_error.rs:
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/targets.rs:
+/home/berk/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/target-lexicon-0.13.3/src/triple.rs:
+/home/berk/Projects/RivalTune/target/debug/build/target-lexicon-c0895ee4bff53946/out/host.rs:
+
+# env-dep:OUT_DIR=/home/berk/Projects/RivalTune/target/debug/build/target-lexicon-c0895ee4bff53946/out

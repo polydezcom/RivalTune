@@ -129,8 +129,8 @@ impl RivaltuneApplication {
             .version(VERSION)
             .developers(vec!["berk"])
             .comments("Configure your SteelSeries mouse on Linux using rivalcfg")
-            .website("https://flozz.github.io/rivalcfg/")
-            .issue_url("https://github.com/polydez/rivaltune/issues")
+            .website("https://github.com/polydezcom/RivalTune")
+            .issue_url("https://github.com/polydezcom/RivalTune/issues")
             .license_type(gtk::License::Gpl30)
             // Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
             .translator_credits(&gettext("translator-credits"))
